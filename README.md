@@ -1,7 +1,7 @@
 # Zorlu Görüntüleme Koşullarında Yüz Tespiti ve Kişi Sayma
 ### Klasik Yöntem (Haar Cascade, HOG) ve YOLO Karşılaştırması
 
-Grup: `No1` - Ad Soyad · `No2` - Ad Soyad · `No3` - Ad Soyad  *(doldurun)*
+Grup: `221015019` - Batuhan Kocamanoğlu · `221015039` - Hakkı Kıvrak · `231015401` - Ulaş Deniz Ay
 
 ---
 
