@@ -1,0 +1,2 @@
+# DigitaImageProcessing_GroupProject
+221015019_BatuhanKocamanoğlu-221015039_HakkıKıvrak-231015401_UlaşDenizAy
