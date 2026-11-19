@@ -1,0 +1,48 @@
+{
+  "haar": {
+    "scaleFactor": 1.1,
+    "minNeighbors": 5,
+    "minSize": [
+      24,
+      24
+    ],
+    "model": "haarcascade_frontalface_default.xml"
+  },
+  "yolo": {
+    "conf": 0.25,
+    "iou": 0.45,
+    "imgsz": 1280,
+    "model": "yolov8n-face.pt (akanametov/yolo-face 1.0.0)",
+    "device": "cpu"
+  },
+  "iyilestirme": {
+    "parlaklik_kontrast": {
+      "alfa": 1.3,
+      "beta": 30
+    },
+    "histogram_esitleme": "elle yazıldı, YCrCb Y kanalı",
+    "clahe": {
+      "clipLimit": 2.0,
+      "tileGridSize": [
+        8,
+        8
+      ],
+      "kanal": "LAB L"
+    }
+  },
+  "iou_esigi": 0.5,
+  "eslestirme": "bire bir, en yüksek IoU öncelikli (greedy)",
+  "sure_olcumu": "cikarim_ms = sadece dedektör çağrısı; uctan_uca_ms = iyileştirme + dedektör (dosya okuma hariç). YOLO bir kez ısındırıldıktan sonra ölçüldü.",
+  "kendi_HE_vs_cv2_equalizeHist": {
+    "max_fark": 0,
+    "ort_fark": 0.0
+  },
+  "surumler": {
+    "python": "3.12.10",
+    "opencv": "4.14.0",
+    "numpy": "2.5.5",
+    "ultralytics": "8.4.215",
+    "torch": "2.15.0+cpu",
+    "platform": "Windows-11-10.0.26200-SP0"
+  }
+}

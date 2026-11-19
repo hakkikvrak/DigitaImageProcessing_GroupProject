@@ -1,9 +1,0 @@
-# Python 3.10 - 3.13 (test edilen sürümler README'de)
-opencv-python>=4.8,<5        # OpenCV 5.0 Haar XML dosyalarını paketle getirmiyor -> 4.x kullan
-numpy>=1.24
-scipy>=1.10                  # Macar algoritması (linear_sum_assignment)
-pandas>=2.0
-matplotlib>=3.7
-pillow>=10.0                 # EXIF yön düzeltme
-ultralytics>=8.3.0           # YOLO11 desteği; torch'u otomatik kurar
-dlib-bin>=19.24              # HOG dedektörü (hazır derlenmiş dlib). Kurulamazsa: --detectors haar yolo

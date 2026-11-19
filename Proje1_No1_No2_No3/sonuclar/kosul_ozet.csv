@@ -1,0 +1,25 @@
+﻿dedektor,yontem,kosul,goruntu,gercek_yuz,tahmin,TP,FP,FN,precision,recall,F1,MAE,ort_cikarim_ms,ort_uctan_uca_ms
+Haar Cascade,ham,normal,10,28,29,23,6,5,0.793,0.821,0.807,0.7,582.5,582.5
+Haar Cascade,ham,dusuk_isik,7,24,11,9,2,15,0.818,0.375,0.514,2.143,248.4,248.4
+Haar Cascade,ham,asiri_parlak,11,33,32,30,2,3,0.938,0.909,0.923,0.273,441.7,441.7
+Haar Cascade,parlaklik_kontrast,normal,10,28,26,23,3,5,0.885,0.821,0.852,0.6,435.7,466.9
+Haar Cascade,parlaklik_kontrast,dusuk_isik,7,24,15,13,2,11,0.867,0.542,0.667,1.571,270.8,301.7
+Haar Cascade,parlaklik_kontrast,asiri_parlak,11,33,31,28,3,5,0.903,0.848,0.875,0.545,423.8,454.9
+Haar Cascade,histogram_esitleme,normal,10,28,28,24,4,4,0.857,0.857,0.857,0.4,458.9,507.6
+Haar Cascade,histogram_esitleme,dusuk_isik,7,24,24,23,1,1,0.958,0.958,0.958,0.286,460.7,493.6
+Haar Cascade,histogram_esitleme,asiri_parlak,11,33,39,32,7,1,0.821,0.97,0.889,0.545,480.3,523.8
+Haar Cascade,clahe,normal,10,28,35,24,11,4,0.686,0.857,0.762,1.1,519.3,555.0
+Haar Cascade,clahe,dusuk_isik,7,24,22,19,3,5,0.864,0.792,0.826,0.857,311.8,341.0
+Haar Cascade,clahe,asiri_parlak,11,33,37,31,6,2,0.838,0.939,0.886,0.545,497.2,526.4
+YOLOv8n-face,ham,normal,10,28,32,28,4,0,0.875,1.0,0.933,0.4,104.2,104.2
+YOLOv8n-face,ham,dusuk_isik,7,24,25,24,1,0,0.96,1.0,0.98,0.143,99.5,99.5
+YOLOv8n-face,ham,asiri_parlak,11,33,33,33,0,0,1.0,1.0,1.0,0.0,95.7,95.7
+YOLOv8n-face,parlaklik_kontrast,normal,10,28,33,28,5,0,0.848,1.0,0.918,0.5,98.4,129.6
+YOLOv8n-face,parlaklik_kontrast,dusuk_isik,7,24,25,24,1,0,0.96,1.0,0.98,0.143,96.3,127.2
+YOLOv8n-face,parlaklik_kontrast,asiri_parlak,11,33,32,32,0,1,1.0,0.97,0.985,0.091,100.4,131.5
+YOLOv8n-face,histogram_esitleme,normal,10,28,32,28,4,0,0.875,1.0,0.933,0.4,94.9,143.6
+YOLOv8n-face,histogram_esitleme,dusuk_isik,7,24,25,24,1,0,0.96,1.0,0.98,0.143,96.5,129.5
+YOLOv8n-face,histogram_esitleme,asiri_parlak,11,33,35,33,2,0,0.943,1.0,0.971,0.182,99.1,142.5
+YOLOv8n-face,clahe,normal,10,28,37,28,9,0,0.757,1.0,0.862,0.9,94.1,129.7
+YOLOv8n-face,clahe,dusuk_isik,7,24,25,24,1,0,0.96,1.0,0.98,0.143,93.3,122.5
+YOLOv8n-face,clahe,asiri_parlak,11,33,34,33,1,0,0.971,1.0,0.985,0.091,99.3,128.5

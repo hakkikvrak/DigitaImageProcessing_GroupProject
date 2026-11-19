@@ -1,0 +1,225 @@
+﻿no,dosya,kosul,yontem,dedektor,gercek_sayi,tahmin_sayi,tp,fp,fn,sayma_hatasi,cikarim_ms,uctan_uca_ms
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,ham,Haar Cascade,3,5,3,2,0,2,1956.14,1956.15
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,ham,YOLOv8n-face,3,5,3,2,0,2,151.18,151.18
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,parlaklik_kontrast,Haar Cascade,3,5,3,2,0,2,460.22,493.93
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,3,5,3,2,0,2,84.91,118.62
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,histogram_esitleme,Haar Cascade,3,4,3,1,0,1,515.69,576.59
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,histogram_esitleme,YOLOv8n-face,3,6,3,3,0,3,100.4,161.3
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,clahe,Haar Cascade,3,6,3,3,0,3,565.79,665.42
+0,WhatsApp Image 2026-11-18 at 17-50-28 (2)_jpeg.rf.rFzl3EBueBsFzX6SJU6G.jpeg,normal,clahe,YOLOv8n-face,3,6,3,3,0,3,106.07,205.7
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,ham,Haar Cascade,4,2,2,0,2,2,294.8,294.8
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,ham,YOLOv8n-face,4,5,4,1,0,1,124.9,124.9
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,4,4,3,1,1,0,322.56,353.59
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,4,5,4,1,0,1,102.03,133.07
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,4,3,3,0,1,1,473.57,510.32
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,4,5,4,1,0,1,104.21,140.96
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,clahe,Haar Cascade,4,3,2,1,2,1,378.51,410.62
+1,WhatsApp Image 2026-11-18 at 17-50-30 (1)_jpeg.rf.675hL6NjBTw0SsrlAE18.jpeg,dusuk_isik,clahe,YOLOv8n-face,4,5,4,1,0,1,112.4,144.51
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,ham,Haar Cascade,4,4,3,1,1,0,478.2,478.2
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,ham,YOLOv8n-face,4,4,4,0,0,0,91.58,91.59
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,4,3,3,0,1,1,438.93,468.7
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,116.04,145.81
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,4,5,3,2,1,1,499.69,543.71
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,4,5,4,1,0,1,100.58,144.6
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,clahe,Haar Cascade,4,4,3,1,1,0,535.68,567.81
+2,WhatsApp Image 2026-11-18 at 17-50-31_jpeg.rf.fZNQALq6qjcfCT53KUN3.jpeg,asiri_parlak,clahe,YOLOv8n-face,4,4,4,0,0,0,85.14,117.28
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,ham,Haar Cascade,2,3,1,2,1,1,460.08,460.09
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,ham,YOLOv8n-face,2,4,2,2,0,2,99.46,99.46
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,parlaklik_kontrast,Haar Cascade,2,2,1,1,1,0,447.25,476.81
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,2,4,2,2,0,2,100.21,129.77
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,histogram_esitleme,Haar Cascade,2,2,1,1,1,0,480.02,526.73
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,histogram_esitleme,YOLOv8n-face,2,3,2,1,0,1,100.27,146.98
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,clahe,Haar Cascade,2,5,1,4,1,3,564.84,591.47
+3,WhatsApp Image 2026-11-18 at 17-50-33_jpeg.rf.EOn2kJu1oGri8FrixkB0.jpeg,normal,clahe,YOLOv8n-face,2,4,2,2,0,2,84.28,110.91
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,ham,Haar Cascade,2,3,2,1,0,1,427.08,427.08
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,ham,YOLOv8n-face,2,2,2,0,0,0,105.47,105.47
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,422.7,456.68
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,108.98,142.96
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,histogram_esitleme,Haar Cascade,2,3,2,1,0,1,451.13,495.58
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,103.12,147.57
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,clahe,Haar Cascade,2,4,2,2,0,2,515.3,542.76
+4,WhatsApp Image 2026-11-18 at 17-50-35 (3)_jpeg.rf.NflPz38VB5SjUvczFEz8.jpeg,normal,clahe,YOLOv8n-face,2,2,2,0,0,0,83.04,110.49
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,ham,Haar Cascade,2,1,0,1,2,1,177.6,177.6
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,ham,YOLOv8n-face,2,2,2,0,0,0,111.84,111.84
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,2,0,0,0,2,2,220.69,252.46
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,106.99,138.76
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,439.61,468.83
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,99.38,128.59
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,clahe,Haar Cascade,2,3,2,1,0,1,259.5,292.35
+5,WhatsApp Image 2026-11-18 at 17-50-35_jpeg.rf.nIdaWJ2u1skTyKbK0gLR.jpeg,dusuk_isik,clahe,YOLOv8n-face,2,2,2,0,0,0,91.1,123.95
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,ham,Haar Cascade,2,2,2,0,0,0,435.99,435.99
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,ham,YOLOv8n-face,2,2,2,0,0,0,108.78,108.78
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,451.89,483.95
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,107.47,139.53
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,492.92,536.98
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,107.67,151.74
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,clahe,Haar Cascade,2,2,2,0,0,0,539.57,568.0
+6,WhatsApp Image 2026-11-18 at 17-50-37 (1)_jpeg.rf.obCKuLdOQYDIgwtDyySn.jpeg,asiri_parlak,clahe,YOLOv8n-face,2,2,2,0,0,0,115.42,143.85
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,ham,Haar Cascade,2,2,2,0,0,0,411.36,411.36
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,ham,YOLOv8n-face,2,2,2,0,0,0,104.6,104.6
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,418.16,447.96
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,110.88,140.68
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,425.92,474.65
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,81.68,130.41
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,clahe,Haar Cascade,2,2,2,0,0,0,511.2,541.12
+7,WhatsApp Image 2026-11-18 at 17-50-37 (3)_jpeg.rf.IgykCDeiH67VzXhY5x5i.jpeg,normal,clahe,YOLOv8n-face,2,2,2,0,0,0,104.38,134.31
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,ham,Haar Cascade,3,3,3,0,0,0,470.16,470.16
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,ham,YOLOv8n-face,3,3,3,0,0,0,103.15,103.15
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,3,2,2,0,1,1,448.74,480.31
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,3,3,3,0,0,0,85.54,117.11
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,3,4,3,1,0,1,518.11,561.04
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,3,3,3,0,0,0,103.09,146.02
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,clahe,Haar Cascade,3,5,3,2,0,2,538.84,567.23
+8,WhatsApp Image 2026-11-18 at 17-50-39 (1)_jpeg.rf.ZzZDgwqYKYDA7gvxOPC1.jpeg,asiri_parlak,clahe,YOLOv8n-face,3,3,3,0,0,0,99.39,127.78
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,ham,Haar Cascade,3,3,3,0,0,0,275.16,275.16
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,ham,YOLOv8n-face,3,3,3,0,0,0,95.88,95.88
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,3,3,3,0,0,0,300.91,331.01
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,3,3,3,0,0,0,78.0,108.09
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,3,3,3,0,0,0,457.59,489.45
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,3,3,3,0,0,0,78.73,110.59
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,clahe,Haar Cascade,3,3,3,0,0,0,310.76,340.05
+9,WhatsApp Image 2026-11-18 at 17-50-41_jpeg.rf.EAkgPjnuZlCQPh8Jy6eT.jpeg,dusuk_isik,clahe,YOLOv8n-face,3,3,3,0,0,0,97.52,126.81
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,ham,Haar Cascade,2,2,2,0,0,0,459.18,459.19
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,ham,YOLOv8n-face,2,2,2,0,0,0,100.7,100.71
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,417.94,448.44
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,98.73,129.23
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,471.62,517.23
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,96.38,142.0
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,clahe,Haar Cascade,2,2,2,0,0,0,514.38,541.3
+10,WhatsApp Image 2026-11-18 at 17-50-42 (1)_jpeg.rf.0HwwSkfuDwC2ZBySFHsK.jpeg,asiri_parlak,clahe,YOLOv8n-face,2,2,2,0,0,0,99.6,126.52
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,ham,Haar Cascade,3,3,3,0,0,0,428.13,428.14
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,ham,YOLOv8n-face,3,3,3,0,0,0,99.08,99.08
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,parlaklik_kontrast,Haar Cascade,3,3,3,0,0,0,435.75,465.93
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,3,4,3,1,0,1,99.71,129.88
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,histogram_esitleme,Haar Cascade,3,3,3,0,0,0,451.58,498.19
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,histogram_esitleme,YOLOv8n-face,3,3,3,0,0,0,84.97,131.58
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,clahe,Haar Cascade,3,3,3,0,0,0,513.21,539.73
+11,WhatsApp Image 2026-11-18 at 17-50-42_jpeg.rf.qHL5n6NrJsHtYeyCbceu.jpeg,normal,clahe,YOLOv8n-face,3,7,3,4,0,4,92.12,118.64
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,ham,Haar Cascade,2,2,2,0,0,0,445.67,445.67
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,ham,YOLOv8n-face,2,2,2,0,0,0,100.08,100.08
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,424.74,456.63
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,100.86,132.75
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,485.2,527.75
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,98.79,141.33
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,clahe,Haar Cascade,2,2,2,0,0,0,507.36,534.91
+12,WhatsApp Image 2026-11-18 at 17-50-43_jpeg.rf.oOBEcaKfkdCJQu0oOG6T.jpeg,asiri_parlak,clahe,YOLOv8n-face,2,2,2,0,0,0,92.58,120.13
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,ham,Haar Cascade,2,2,2,0,0,0,393.47,393.47
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,ham,YOLOv8n-face,2,2,2,0,0,0,97.64,97.64
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,427.8,459.9
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,90.69,122.79
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,446.14,499.21
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,99.37,152.45
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,clahe,Haar Cascade,2,2,2,0,0,0,480.33,506.82
+13,WhatsApp Image 2026-11-18 at 17-50-44 (1)_jpeg.rf.cVrvZIIyr8lQbyGmHLW6.jpeg,normal,clahe,YOLOv8n-face,2,2,2,0,0,0,102.33,128.83
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,ham,Haar Cascade,2,2,2,0,0,0,427.5,427.5
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,ham,YOLOv8n-face,2,2,2,0,0,0,96.85,96.85
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,426.9,457.45
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,92.24,122.79
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,2,3,2,1,0,1,474.29,516.76
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,2,3,2,1,0,1,82.84,125.31
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,clahe,Haar Cascade,2,3,2,1,0,1,486.63,517.23
+14,WhatsApp Image 2026-11-18 at 17-50-45 (1)_jpeg.rf.nU4tLIEUEAGLjtEF7gez.jpeg,asiri_parlak,clahe,YOLOv8n-face,2,2,2,0,0,0,101.31,131.9
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,ham,Haar Cascade,2,2,2,0,0,0,396.58,396.59
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,ham,YOLOv8n-face,2,2,2,0,0,0,89.44,89.45
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,parlaklik_kontrast,Haar Cascade,2,2,2,0,0,0,428.08,460.77
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,2,2,2,0,0,0,99.78,132.46
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,histogram_esitleme,Haar Cascade,2,2,2,0,0,0,421.86,468.05
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,histogram_esitleme,YOLOv8n-face,2,2,2,0,0,0,100.81,147.0
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,clahe,Haar Cascade,2,3,2,1,0,1,484.3,514.2
+15,WhatsApp Image 2026-11-18 at 17-50-45_jpeg.rf.xd5Pe6EZCE7QCj0Wqq0a.jpeg,normal,clahe,YOLOv8n-face,2,2,2,0,0,0,86.51,116.41
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,ham,Haar Cascade,3,3,3,0,0,0,476.49,476.49
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,ham,YOLOv8n-face,3,3,3,0,0,0,84.19,84.19
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,3,3,3,0,0,0,476.94,508.0
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,3,3,3,0,0,0,104.88,135.93
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,3,3,3,0,0,0,513.61,558.98
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,3,3,3,0,0,0,103.53,148.9
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,clahe,Haar Cascade,3,3,3,0,0,0,520.7,547.84
+16,WhatsApp Image 2026-11-18 at 17-50-49 (1)_jpeg.rf.PsGCxk3aIpniHaNYiOUs.jpeg,asiri_parlak,clahe,YOLOv8n-face,3,3,3,0,0,0,95.4,122.54
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,ham,Haar Cascade,3,0,0,0,3,3,181.12,181.12
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,ham,YOLOv8n-face,3,3,3,0,0,0,80.01,80.01
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,3,0,0,0,3,3,189.66,219.85
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,3,3,3,0,0,0,97.39,127.57
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,3,3,3,0,0,0,444.63,473.78
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,3,3,3,0,0,0,100.22,129.38
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,clahe,Haar Cascade,3,1,1,0,2,2,228.67,257.13
+17,WhatsApp Image 2026-11-18 at 17-50-49_jpeg.rf.loRvADBNRs8wyVwxYEnZ.jpeg,dusuk_isik,clahe,YOLOv8n-face,3,3,3,0,0,0,82.55,111.01
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,ham,Haar Cascade,4,4,3,1,1,0,457.15,457.16
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,ham,YOLOv8n-face,4,4,4,0,0,0,97.44,97.44
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,parlaklik_kontrast,Haar Cascade,4,3,3,0,1,1,450.02,481.4
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,101.62,132.99
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,histogram_esitleme,Haar Cascade,4,3,3,0,1,1,469.61,517.66
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,102.94,150.99
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,clahe,Haar Cascade,4,4,3,1,1,0,523.39,558.73
+18,WhatsApp Image 2026-11-18 at 17-50-50 (3)_jpeg.rf.r86QLzuL5FuEvPs66D8T.jpeg,normal,clahe,YOLOv8n-face,4,4,4,0,0,0,97.55,132.88
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,ham,Haar Cascade,3,3,3,0,0,0,459.51,459.51
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,ham,YOLOv8n-face,3,3,3,0,0,0,85.96,85.96
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,3,4,3,1,0,1,458.11,492.83
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,3,3,3,0,0,0,99.74,134.46
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,3,4,3,1,0,1,524.69,571.54
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,3,3,3,0,0,0,102.01,148.86
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,clahe,Haar Cascade,3,3,3,0,0,0,511.86,538.9
+19,WhatsApp Image 2026-11-18 at 17-50-50_jpeg.rf.oeIlUFJVIfaopHUlIzqr.jpeg,asiri_parlak,clahe,YOLOv8n-face,3,4,3,1,0,1,103.84,130.88
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,ham,Haar Cascade,4,2,2,0,2,2,446.48,446.48
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,ham,YOLOv8n-face,4,4,4,0,0,0,86.95,86.95
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,parlaklik_kontrast,Haar Cascade,4,2,2,0,2,2,457.94,487.38
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,85.58,115.02
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,histogram_esitleme,Haar Cascade,4,4,3,1,1,0,466.93,512.15
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,88.86,134.08
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,clahe,Haar Cascade,4,3,3,0,1,1,516.78,544.02
+20,WhatsApp Image 2026-11-18 at 17-50-54_jpeg.rf.rYrKwv8rEKMHkRZQNF8g.jpeg,normal,clahe,YOLOv8n-face,4,4,4,0,0,0,97.98,125.22
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,ham,Haar Cascade,4,4,4,0,0,0,485.63,485.63
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,ham,YOLOv8n-face,4,4,4,0,0,0,79.86,79.86
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,4,4,4,0,0,0,476.11,507.11
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,95.78,126.78
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,4,5,4,1,0,1,533.86,577.61
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,96.92,140.67
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,clahe,Haar Cascade,4,5,4,1,0,1,520.89,547.79
+21,WhatsApp Image 2026-11-18 at 17-50-56_jpeg.rf.Cp4VWldvElXuQt7oN68j.jpeg,asiri_parlak,clahe,YOLOv8n-face,4,4,4,0,0,0,99.58,126.48
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,ham,Haar Cascade,4,0,0,0,4,4,206.57,206.57
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,ham,YOLOv8n-face,4,4,4,0,0,0,89.85,89.86
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,4,0,0,0,4,4,222.72,254.18
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,95.35,126.82
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,4,5,4,1,0,1,481.44,512.33
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,102.47,133.36
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,clahe,Haar Cascade,4,3,3,0,1,1,265.58,293.81
+22,WhatsApp Image 2026-11-18 at 17-51-00_jpeg.rf.LwOybZ93mIwgPsV8J7FB.jpeg,dusuk_isik,clahe,YOLOv8n-face,4,4,4,0,0,0,93.84,122.07
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,ham,Haar Cascade,4,5,4,1,0,1,351.66,351.66
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,ham,YOLOv8n-face,4,4,4,0,0,0,92.77,92.77
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,4,5,4,1,0,1,350.92,382.65
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,97.41,129.14
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,4,4,4,0,0,0,476.16,511.22
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,103.23,138.29
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,clahe,Haar Cascade,4,5,4,1,0,1,386.89,413.57
+23,WhatsApp Image 2026-11-18 at 17-51-02 (2)_jpeg.rf.ddnaWn5nKTWpdlsCBOiw.jpeg,dusuk_isik,clahe,YOLOv8n-face,4,4,4,0,0,0,78.14,104.83
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,ham,Haar Cascade,4,3,3,0,1,1,448.41,448.41
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,ham,YOLOv8n-face,4,4,4,0,0,0,110.6,110.6
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,parlaklik_kontrast,Haar Cascade,4,3,3,0,1,1,408.84,438.52
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,101.41,131.09
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,histogram_esitleme,Haar Cascade,4,3,3,0,1,1,459.74,507.39
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,86.42,134.07
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,clahe,Haar Cascade,4,3,3,0,1,1,518.25,545.56
+24,WhatsApp Image 2026-11-18 at 17-51-03 (2)_jpeg.rf.rewW1i6r43ja4B7SDnoH.jpeg,normal,clahe,YOLOv8n-face,4,4,4,0,0,0,86.76,114.07
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,ham,Haar Cascade,4,2,2,0,2,2,293.35,293.35
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,ham,YOLOv8n-face,4,4,4,0,0,0,101.33,101.33
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,4,2,1,1,3,2,260.15,289.28
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,4,3,3,0,1,1,99.79,128.92
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,4,4,4,0,0,0,338.2,374.39
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,98.47,134.65
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,clahe,Haar Cascade,4,3,3,0,1,1,327.84,362.0
+25,WhatsApp Image 2026-11-18 at 17-51-04 (1)_jpeg.rf.gQsbZCmjZ99NJZfkUxeI.jpeg,asiri_parlak,clahe,YOLOv8n-face,4,4,4,0,0,0,113.37,147.54
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,ham,Haar Cascade,4,0,0,0,4,4,251.97,251.98
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,ham,YOLOv8n-face,4,4,4,0,0,0,101.01,101.02
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,parlaklik_kontrast,Haar Cascade,4,3,3,0,1,1,288.0,318.15
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,96.68,126.83
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,histogram_esitleme,Haar Cascade,4,4,4,0,0,0,451.68,489.41
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,87.52,125.25
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,clahe,Haar Cascade,4,4,4,0,0,0,352.79,379.7
+26,WhatsApp Image 2026-11-18 at 17-51-04 (3)_jpeg.rf.P68boHQMOU6bQ0hGCcaK.jpeg,dusuk_isik,clahe,YOLOv8n-face,4,4,4,0,0,0,97.38,124.29
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,ham,Haar Cascade,4,5,4,1,0,1,427.13,427.13
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,ham,YOLOv8n-face,4,4,4,0,0,0,100.11,100.11
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,parlaklik_kontrast,Haar Cascade,4,5,4,1,0,1,380.91,410.89
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,parlaklik_kontrast,YOLOv8n-face,4,4,4,0,0,0,103.26,133.25
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,histogram_esitleme,Haar Cascade,4,5,4,1,0,1,431.6,475.39
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,histogram_esitleme,YOLOv8n-face,4,4,4,0,0,0,99.27,143.06
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,clahe,Haar Cascade,4,5,4,1,0,1,465.29,497.04
+27,WhatsApp Image 2026-11-18 at 17-51-04_jpeg.rf.gtBinFmrvafmQgtDavvv.jpeg,asiri_parlak,clahe,YOLOv8n-face,4,4,4,0,0,0,87.06,118.8

@@ -1,0 +1,17 @@
+﻿kosul,yontem,ort_parlaklik,ort_kontrast,ort_entropi
+normal,ham,109.6,68.6,7.762
+normal,parlaklik_kontrast,158.9,70.3,6.896
+normal,histogram_esitleme,127.8,73.4,7.549
+normal,clahe,117.6,66.5,7.822
+dusuk_isik,ham,14.9,19.4,4.837
+dusuk_isik,parlaklik_kontrast,49.4,24.8,5.053
+dusuk_isik,histogram_esitleme,114.6,77.4,4.756
+dusuk_isik,clahe,28.1,27.7,5.209
+asiri_parlak,ham,170.1,63.7,6.616
+asiri_parlak,parlaklik_kontrast,212.4,47.8,5.69
+asiri_parlak,histogram_esitleme,135.2,80.4,6.413
+asiri_parlak,clahe,162.3,69.2,6.813
+tumu,ham,109.7,54.3,6.581
+tumu,parlaklik_kontrast,152.5,50.1,5.961
+tumu,histogram_esitleme,127.4,77.2,6.404
+tumu,clahe,112.8,57.9,6.773

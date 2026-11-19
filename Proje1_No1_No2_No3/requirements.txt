@@ -1,0 +1,9 @@
+opencv-python>=4.8
+numpy>=1.24
+matplotlib>=3.7
+Pillow>=10.0
+ultralytics>=8.1
+torch>=2.0
+# Not: tkinter Python ile birlikte gelir (ayrıca kurulmaz).
+# Test edilen sürümler: Python 3.12.10, opencv 4.14.0, numpy 2.5.5, matplotlib 3.11.2,
+# Pillow 13.0.0, ultralytics 8.4.215, torch 2.15.0+cpu

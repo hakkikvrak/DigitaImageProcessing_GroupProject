@@ -1,6 +1,0 @@
-Telefondan gelen ORİJİNAL fotoğrafları buraya koyun:
-  normal/     -> normal ışık (en az 5, öneri 7-8)
-  low_light/  -> düşük ışık (en az 5)
-  challenge/  -> ters ışık / küçük yüz / kısmi örtülme (birini seçin, en az 5)
-Sonra: python src/preprocess.py
-NOT: Bu klasör teslim zip'ine EKLENMEZ (EXIF/GPS içerir). Teslimde data/images kullanılır.
