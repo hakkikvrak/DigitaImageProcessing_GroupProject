@@ -28,136 +28,136 @@ import iyilestirme as I           # noqa: E402
 import metrikler as M             # noqa: E402
 import veri as V                  # noqa: E402
 
-KOK = V.KOK
-SONUC = os.path.join(KOK, "sonuclar")
-YONTEMLER = list(I.YONTEMLER)                         # ham, parlaklik_kontrast, ...
-KOSULLAR = list(V.KOSUL_ADLARI)                       # normal, dusuk_isik, asiri_parlak
+ROOT = V.ROOT
+RESULTS_DIR = os.path.join(ROOT, "sonuclar")
+METHODS = list(I.METHODS)                         # ham, parlaklik_kontrast, ...
+CONDITIONS = list(V.CONDITION_NAMES)                       # normal, dusuk_isik, asiri_parlak
 
 # Renkler: dedektör kimliği (kategorik, sabit sıra)
-RENK = {"Haar Cascade": "#2a78d6", "YOLOv8n-face": "#eb6834"}
-GT_RENK_BGR = (0, 200, 0)                             # referans kutular yeşil
+COLORS = {"Haar Cascade": "#2a78d6", "YOLOv8n-face": "#eb6834"}
+GT_COLOR_BGR = (0, 200, 0)                             # referans kutular yeşil
 
 
-def kutulari_ciz(img, gercek, tahmin, eslesmeler):
+def draw_boxes(img, truth, pred, matches):
     """Yeşil = referans, mavi = doğru tespit (TP), kırmızı = yanlış tespit (FP)."""
     out = img.copy()
-    kalin = max(2, img.shape[1] // 400)
-    for g in gercek:
-        cv2.rectangle(out, g[:2], g[2:4], GT_RENK_BGR, kalin)
-    tp_idx = {i for i, _, _ in eslesmeler}
-    for i, t in enumerate(tahmin):
-        renk = (255, 120, 0) if i in tp_idx else (0, 0, 255)
-        cv2.rectangle(out, t[:2], t[2:4], renk, kalin)
+    thickness = max(2, img.shape[1] // 400)
+    for g in truth:
+        cv2.rectangle(out, g[:2], g[2:4], GT_COLOR_BGR, thickness)
+    tp_idx = {i for i, _, _ in matches}
+    for i, t in enumerate(pred):
+        color = (255, 120, 0) if i in tp_idx else (0, 0, 255)
+        cv2.rectangle(out, t[:2], t[2:4], color, thickness)
     return out
 
 
-def entropi(gri):
-    h = np.bincount(gri.ravel(), minlength=256).astype(np.float64)
+def entropy(gray):
+    h = np.bincount(gray.ravel(), minlength=256).astype(np.float64)
     p = h[h > 0] / h.sum()
     return float(-(p * np.log2(p)).sum())
 
 
-def dogrulama_histogram():
+def verify_histogram():
     """Kendi histogram eşitlememizi cv2.equalizeHist ile karşılaştırır (sadece doğrulama)."""
-    kayit = V.kosullari_oku()[0]
-    gri = cv2.cvtColor(V.goruntu_oku(os.path.join(V.GORUNTU_KLASORU, kayit["dosya"])),
+    record = V.read_conditions()[0]
+    gray = cv2.cvtColor(V.read_image(os.path.join(V.IMAGE_DIR, record["dosya"])),
                        cv2.COLOR_BGR2GRAY)
-    fark = np.abs(I.histogram_esitle_gri(gri).astype(int) - cv2.equalizeHist(gri).astype(int))
-    return int(fark.max()), float(fark.mean())
+    diff = np.abs(I.equalize_hist_gray(gray).astype(int) - cv2.equalizeHist(gray).astype(int))
+    return int(diff.max()), float(diff.mean())
 
 
-def calistir(ilerleme=None, haar_param=None, yolo_param=None):
+def run(progress=None, haar_param=None, yolo_param=None):
     """Deneyi çalıştırır. ilerleme(metin, oran) arayüzde ilerleme çubuğu için kullanılır."""
-    os.makedirs(os.path.join(SONUC, "grafikler"), exist_ok=True)
-    os.makedirs(os.path.join(SONUC, "ornekler"), exist_ok=True)
+    os.makedirs(os.path.join(RESULTS_DIR, "grafikler"), exist_ok=True)
+    os.makedirs(os.path.join(RESULTS_DIR, "ornekler"), exist_ok=True)
 
-    etiketler = V.etiketleri_oku()
-    kayitlar = V.kosullari_oku()
-    dedektorler = [D.HaarDedektor(**(haar_param or {})), D.YoloDedektor(**(yolo_param or {}))]
+    labels = V.read_labels()
+    records = V.read_conditions()
+    detectors = [D.HaarDetector(**(haar_param or {})), D.YoloDetector(**(yolo_param or {}))]
 
     # YOLO ısınma (ilk çağrı model yükleme içerir; süreye katılmasın)
-    dedektorler[1].tespit(np.zeros((640, 640, 3), np.uint8))
+    detectors[1].detect(np.zeros((640, 640, 3), np.uint8))
 
-    satirlar, kalite = [], []
-    toplam_is = len(kayitlar) * len(YONTEMLER)
-    is_no = 0
-    for k in kayitlar:
-        ham = V.goruntu_oku(os.path.join(V.GORUNTU_KLASORU, k["dosya"]))
-        gercek = etiketler[k["dosya"]]
-        for y in YONTEMLER:
-            is_no += 1
-            if ilerleme:
-                ilerleme(f"Görüntü {k['no']} / {I.YONTEMLER[y][0]}", is_no / toplam_is)
+    rows, quality = [], []
+    total_tasks = len(records) * len(METHODS)
+    task_no = 0
+    for k in records:
+        raw = V.read_image(os.path.join(V.IMAGE_DIR, k["dosya"]))
+        truth = labels[k["dosya"]]
+        for y in METHODS:
+            task_no += 1
+            if progress:
+                progress(f"Görüntü {k['no']} / {I.METHODS[y][0]}", task_no / total_tasks)
             t0 = time.perf_counter()
-            img = I.uygula(ham, y)
-            sure_iyilestirme = (time.perf_counter() - t0) * 1000
+            img = I.apply_method(raw, y)
+            enhance_ms = (time.perf_counter() - t0) * 1000
 
-            gri = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            kalite.append(dict(no=k["no"], kosul=k["kosul"], yontem=y,
-                               parlaklik=float(gri.mean()), kontrast=float(gri.std()),
-                               entropi=entropi(gri)))
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            quality.append(dict(no=k["no"], kosul=k["kosul"], yontem=y,
+                               parlaklik=float(gray.mean()), kontrast=float(gray.std()),
+                               entropi=entropy(gray)))
 
-            for d in dedektorler:
+            for d in detectors:
                 t1 = time.perf_counter()
-                tahmin = d.tespit(img)
-                sure_cikarim = (time.perf_counter() - t1) * 1000
-                esl, tp, fp, fn = M.eslestir(tahmin, gercek)
-                satirlar.append(dict(
-                    no=int(k["no"]), dosya=k["dosya"], kosul=k["kosul"], yontem=y, dedektor=d.ad,
-                    gercek_sayi=len(gercek), tahmin_sayi=len(tahmin), tp=tp, fp=fp, fn=fn,
-                    sayma_hatasi=abs(len(tahmin) - len(gercek)),
-                    cikarim_ms=round(sure_cikarim, 2),
-                    uctan_uca_ms=round(sure_iyilestirme + sure_cikarim, 2)))
+                pred = d.detect(img)
+                infer_ms = (time.perf_counter() - t1) * 1000
+                matches, tp, fp, fn = M.match(pred, truth)
+                rows.append(dict(
+                    no=int(k["no"]), dosya=k["dosya"], kosul=k["kosul"], yontem=y, dedektor=d.name,
+                    gercek_sayi=len(truth), tahmin_sayi=len(pred), tp=tp, fp=fp, fn=fn,
+                    sayma_hatasi=abs(len(pred) - len(truth)),
+                    cikarim_ms=round(infer_ms, 2),
+                    uctan_uca_ms=round(enhance_ms + infer_ms, 2)))
                 # Bazı örnek görüntüleri kaydet (her koşuldan biri)
                 if int(k["no"]) in (4, 5, 6, 18, 25):
-                    ad = f"{int(k['no']):02d}_{y}_{d.ad.split()[0].split('v')[0]}.jpg"
-                    V.goruntu_yaz(os.path.join(SONUC, "ornekler", ad),
-                                  cv2.resize(kutulari_ciz(img, gercek, tahmin, esl), None, fx=0.5, fy=0.5))
+                    name = f"{int(k['no']):02d}_{y}_{d.name.split()[0].split('v')[0]}.jpg"
+                    V.write_image(os.path.join(RESULTS_DIR, "ornekler", name),
+                                  cv2.resize(draw_boxes(img, truth, pred, matches), None, fx=0.5, fy=0.5))
 
-    yaz_csv(os.path.join(SONUC, "goruntu_bazli.csv"), satirlar)
-    yaz_csv(os.path.join(SONUC, "goruntu_kalitesi.csv"), kalite)
-    ozet = ozetle(satirlar, ["dedektor", "yontem"])
-    kosul_ozet = ozetle(satirlar, ["dedektor", "yontem", "kosul"])
-    yaz_csv(os.path.join(SONUC, "ozet.csv"), ozet)
-    yaz_csv(os.path.join(SONUC, "kosul_ozet.csv"), kosul_ozet)
-    kalite_ozet = kalite_ozetle(kalite)
-    yaz_csv(os.path.join(SONUC, "goruntu_kalitesi_ozet.csv"), kalite_ozet)
+    write_csv(os.path.join(RESULTS_DIR, "goruntu_bazli.csv"), rows)
+    write_csv(os.path.join(RESULTS_DIR, "goruntu_kalitesi.csv"), quality)
+    summary = summarize(rows, ["dedektor", "yontem"])
+    condition_summary = summarize(rows, ["dedektor", "yontem", "kosul"])
+    write_csv(os.path.join(RESULTS_DIR, "ozet.csv"), summary)
+    write_csv(os.path.join(RESULTS_DIR, "kosul_ozet.csv"), condition_summary)
+    quality_summary = summarize_quality(quality)
+    write_csv(os.path.join(RESULTS_DIR, "goruntu_kalitesi_ozet.csv"), quality_summary)
 
-    mx, ort = dogrulama_histogram()
+    mx, mean_diff = verify_histogram()
     param = dict(
-        haar=dict(dedektorler[0].param, model="haarcascade_frontalface_default.xml"),
-        yolo=dict(dedektorler[1].param, model="yolov8n-face.pt (akanametov/yolo-face 1.0.0)", device="cpu"),
-        iyilestirme=dict(parlaklik_kontrast=dict(alfa=I.PK_ALFA, beta=I.PK_BETA),
+        haar=dict(detectors[0].param, model="haarcascade_frontalface_default.xml"),
+        yolo=dict(detectors[1].param, model="yolov8n-face.pt (akanametov/yolo-face 1.0.0)", device="cpu"),
+        iyilestirme=dict(parlaklik_kontrast=dict(alfa=I.BC_ALPHA, beta=I.BC_BETA),
                          histogram_esitleme="elle yazıldı, YCrCb Y kanalı",
-                         clahe=dict(clipLimit=I.CLAHE_CLIP, tileGridSize=I.CLAHE_IZGARA, kanal="LAB L")),
-        iou_esigi=M.IOU_ESIK, eslestirme="bire bir, en yüksek IoU öncelikli (greedy)",
+                         clahe=dict(clipLimit=I.CLAHE_CLIP, tileGridSize=I.CLAHE_GRID, kanal="LAB L")),
+        iou_esigi=M.IOU_THRESHOLD, eslestirme="bire bir, en yüksek IoU öncelikli (greedy)",
         sure_olcumu="cikarim_ms = sadece dedektör çağrısı; uctan_uca_ms = iyileştirme + dedektör "
                     "(dosya okuma hariç). YOLO bir kez ısındırıldıktan sonra ölçüldü.",
-        kendi_HE_vs_cv2_equalizeHist=dict(max_fark=mx, ort_fark=round(ort, 4)),
+        kendi_HE_vs_cv2_equalizeHist=dict(max_fark=mx, ort_fark=round(mean_diff, 4)),
         surumler=dict(python=platform.python_version(), opencv=cv2.__version__, numpy=np.__version__,
                       ultralytics=__import__("ultralytics").__version__,
                       torch=__import__("torch").__version__, platform=platform.platform()),
     )
-    with open(os.path.join(SONUC, "parametreler.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(RESULTS_DIR, "parametreler.json"), "w", encoding="utf-8") as f:
         json.dump(param, f, ensure_ascii=False, indent=2)
 
-    grafikler(ozet, kosul_ozet, satirlar, kalite_ozet)
-    if ilerleme:
-        ilerleme("Bitti", 1.0)
-    return ozet, kosul_ozet
+    plot_charts(summary, condition_summary, rows, quality_summary)
+    if progress:
+        progress("Bitti", 1.0)
+    return summary, condition_summary
 
 
-def ozetle(satirlar, anahtarlar):
-    grup = defaultdict(list)
-    for s in satirlar:
-        grup[tuple(s[a] for a in anahtarlar)].append(s)
-    sira = {"dedektor": list(RENK), "yontem": YONTEMLER, "kosul": KOSULLAR}
-    cikti = []
-    for anahtar in sorted(grup, key=lambda t: [sira[a].index(v) for a, v in zip(anahtarlar, t)]):
-        g = grup[anahtar]
+def summarize(rows, keys):
+    groups = defaultdict(list)
+    for s in rows:
+        groups[tuple(s[a] for a in keys)].append(s)
+    order = {"dedektor": list(COLORS), "yontem": METHODS, "kosul": CONDITIONS}
+    output = []
+    for group_key in sorted(groups, key=lambda t: [order[a].index(v) for a, v in zip(keys, t)]):
+        g = groups[group_key]
         tp, fp, fn = (sum(s[x] for s in g) for x in ("tp", "fp", "fn"))
-        p, r, f1 = M.ozet(tp, fp, fn)
-        cikti.append({**dict(zip(anahtarlar, anahtar)),
+        p, r, f1 = M.summary(tp, fp, fn)
+        output.append({**dict(zip(keys, group_key)),
                       "goruntu": len(g), "gercek_yuz": sum(s["gercek_sayi"] for s in g),
                       "tahmin": sum(s["tahmin_sayi"] for s in g),
                       "TP": tp, "FP": fp, "FN": fn,
@@ -165,30 +165,30 @@ def ozetle(satirlar, anahtarlar):
                       "MAE": round(np.mean([s["sayma_hatasi"] for s in g]), 3),
                       "ort_cikarim_ms": round(np.mean([s["cikarim_ms"] for s in g]), 1),
                       "ort_uctan_uca_ms": round(np.mean([s["uctan_uca_ms"] for s in g]), 1)})
-    return cikti
+    return output
 
 
-def kalite_ozetle(kalite):
-    cikti = []
-    for kosul in KOSULLAR + ["tumu"]:
-        for y in YONTEMLER:
-            g = [q for q in kalite if q["yontem"] == y and (kosul == "tumu" or q["kosul"] == kosul)]
-            cikti.append(dict(kosul=kosul, yontem=y,
+def summarize_quality(quality):
+    output = []
+    for condition in CONDITIONS + ["tumu"]:
+        for y in METHODS:
+            g = [q for q in quality if q["yontem"] == y and (condition == "tumu" or q["kosul"] == condition)]
+            output.append(dict(kosul=condition, yontem=y,
                               ort_parlaklik=round(np.mean([q["parlaklik"] for q in g]), 1),
                               ort_kontrast=round(np.mean([q["kontrast"] for q in g]), 1),
                               ort_entropi=round(np.mean([q["entropi"] for q in g]), 3)))
-    return cikti
+    return output
 
 
-def yaz_csv(yol, satirlar):
-    with open(yol, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=list(satirlar[0]))
+def write_csv(path, rows):
+    with open(path, "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
-        w.writerows(satirlar)
+        w.writerows(rows)
 
 
 # ------------------------------------------------------------------ grafikler
-def _eksen_sade(ax):
+def _clean_axes(ax):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     ax.spines["left"].set_color("#bbbbbb")
@@ -198,100 +198,100 @@ def _eksen_sade(ax):
     ax.set_axisbelow(True)
 
 
-def _cubuk(ax, degerler_dict, etiketler, bicim="{:.2f}"):
-    n = len(degerler_dict)
-    gen = 0.8 / n
-    x = np.arange(len(etiketler))
-    for i, (ad, degerler) in enumerate(degerler_dict.items()):
-        konum = x - 0.4 + gen * (i + 0.5)
-        bars = ax.bar(konum, degerler, gen * 0.92, color=RENK[ad], label=ad)
-        for b, v in zip(bars, degerler):
-            ax.text(b.get_x() + b.get_width() / 2, b.get_height(), bicim.format(v),
+def _bars(ax, values_dict, labels, fmt="{:.2f}"):
+    n = len(values_dict)
+    bar_w = 0.8 / n
+    x = np.arange(len(labels))
+    for i, (name, values) in enumerate(values_dict.items()):
+        pos = x - 0.4 + bar_w * (i + 0.5)
+        bars = ax.bar(pos, values, bar_w * 0.92, color=COLORS[name], label=name)
+        for b, v in zip(bars, values):
+            ax.text(b.get_x() + b.get_width() / 2, b.get_height(), fmt.format(v),
                     ha="center", va="bottom" if v >= 0 else "top", fontsize=8, color="#333333")
     ax.set_xticks(x)
-    ax.set_xticklabels(etiketler)
-    _eksen_sade(ax)
+    ax.set_xticklabels(labels)
+    _clean_axes(ax)
 
 
-def grafikler(ozet, kosul_ozet, satirlar, kalite_ozet):
+def plot_charts(summary, condition_summary, rows, quality_summary):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    yer = os.path.join(SONUC, "grafikler")
-    y_ad = [I.YONTEMLER[y][0] for y in YONTEMLER]
+    out_dir = os.path.join(RESULTS_DIR, "grafikler")
+    method_labels = [I.METHODS[y][0] for y in METHODS]
 
-    def deger(tablo, alan, **filtre):
-        return {d: [next(s[alan] for s in tablo if s["dedektor"] == d and s["yontem"] == y
-                         and all(s[k] == v for k, v in filtre.items())) for y in YONTEMLER]
-                for d in RENK}
+    def get_values(table, field, **filters):
+        return {d: [next(s[field] for s in table if s["dedektor"] == d and s["yontem"] == y
+                         and all(s[k] == v for k, v in filters.items())) for y in METHODS]
+                for d in COLORS}
 
     # 1) F1 ve MAE - tüm veri
-    for alan, baslik, dosya, bicim in [
+    for field, title_text, filename, fmt in [
             ("F1", "F1 skoru (IoU ≥ 0,50) – tüm veri kümesi", "f1_genel.png", "{:.2f}"),
             ("MAE", "Ortalama mutlak sayma hatası (MAE) – düşük daha iyi", "mae_genel.png", "{:.2f}"),
             ("ort_cikarim_ms", "Ortalama çıkarım süresi (ms / görüntü)", "sure.png", "{:.0f}")]:
         fig, ax = plt.subplots(figsize=(8, 4.2), dpi=150)
-        _cubuk(ax, deger(ozet, alan), y_ad, bicim)
-        if alan == "F1":
+        _bars(ax, get_values(summary, field), method_labels, fmt)
+        if field == "F1":
             ax.set_ylim(0, 1.05)
-        ax.set_title(baslik, loc="left", fontsize=11)
+        ax.set_title(title_text, loc="left", fontsize=11)
         ax.legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
         fig.tight_layout()
-        fig.savefig(os.path.join(yer, dosya))
+        fig.savefig(os.path.join(out_dir, filename))
         plt.close(fig)
 
     # 2) Koşullara göre F1 (küçük çoklu grafik)
     fig, axs = plt.subplots(1, 3, figsize=(13, 4), dpi=150, sharey=True)
-    for ax, kosul in zip(axs, KOSULLAR):
-        _cubuk(ax, deger(kosul_ozet, "F1", kosul=kosul), ["Ham", "P/K", "HE", "CLAHE"])
-        ax.set_title(V.KOSUL_ADLARI[kosul], fontsize=11)
+    for ax, condition in zip(axs, CONDITIONS):
+        _bars(ax, get_values(condition_summary, "F1", kosul=condition), ["Ham", "P/K", "HE", "CLAHE"])
+        ax.set_title(V.CONDITION_NAMES[condition], fontsize=11)
         ax.set_ylim(0, 1.1)
     axs[0].set_ylabel("F1")
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
     fig.suptitle("Çekim koşuluna göre F1 skoru", x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
-    fig.savefig(os.path.join(yer, "f1_kosullara_gore.png"))
+    fig.savefig(os.path.join(out_dir, "f1_kosullara_gore.png"))
     plt.close(fig)
 
     # 3) Recall koşullara göre
     fig, axs = plt.subplots(1, 3, figsize=(13, 4), dpi=150, sharey=True)
-    for ax, kosul in zip(axs, KOSULLAR):
-        _cubuk(ax, deger(kosul_ozet, "recall", kosul=kosul), ["Ham", "P/K", "HE", "CLAHE"])
-        ax.set_title(V.KOSUL_ADLARI[kosul], fontsize=11)
+    for ax, condition in zip(axs, CONDITIONS):
+        _bars(ax, get_values(condition_summary, "recall", kosul=condition), ["Ham", "P/K", "HE", "CLAHE"])
+        ax.set_title(V.CONDITION_NAMES[condition], fontsize=11)
         ax.set_ylim(0, 1.1)
     axs[0].set_ylabel("Recall")
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
     fig.suptitle("Çekim koşuluna göre Recall (bulunan yüz oranı)", x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
-    fig.savefig(os.path.join(yer, "recall_kosullara_gore.png"))
+    fig.savefig(os.path.join(out_dir, "recall_kosullara_gore.png"))
     plt.close(fig)
 
     # 4) Araştırma sorusu: iyileştirme, ham görüntüye göre F1'i artırıyor mu?
     fig, axs = plt.subplots(1, 3, figsize=(13, 4), dpi=150, sharey=True)
-    for ax, kosul in zip(axs, KOSULLAR):
-        f1 = deger(kosul_ozet, "F1", kosul=kosul)
-        fark = {d: [v - f1[d][0] for v in f1[d][1:]] for d in RENK}   # ham'a göre fark
-        _cubuk(ax, fark, ["P/K", "HE", "CLAHE"], "{:+.2f}")
+    for ax, condition in zip(axs, CONDITIONS):
+        f1 = get_values(condition_summary, "F1", kosul=condition)
+        diff = {d: [v - f1[d][0] for v in f1[d][1:]] for d in COLORS}   # ham'a göre fark
+        _bars(ax, diff, ["P/K", "HE", "CLAHE"], "{:+.2f}")
         ax.axhline(0, color="#888888", linewidth=1)
-        ax.set_title(V.KOSUL_ADLARI[kosul], fontsize=11)
+        ax.set_title(V.CONDITION_NAMES[condition], fontsize=11)
     axs[0].set_ylabel("F1 farkı (iyileştirilmiş − ham)")
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
     fig.suptitle("İyileştirme ham görüntüye göre F1'i ne kadar değiştirdi? (0'ın altı = kötüleşme)",
                  x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
-    fig.savefig(os.path.join(yer, "f1_degisimi.png"))
+    fig.savefig(os.path.join(out_dir, "f1_degisimi.png"))
     plt.close(fig)
 
 
 if __name__ == "__main__":
-    def yaz(metin, oran):
-        print(f"\r[{oran * 100:5.1f}%] {metin:<50}", end="", flush=True)
+    def show_progress(msg, ratio):
+        print(f"\r[{ratio * 100:5.1f}%] {msg:<50}", end="", flush=True)
 
-    ozet, _ = calistir(yaz)
+    summary, _ = run(show_progress)
     print("\n\nÖZET (tüm veri kümesi)")
     print(f"{'Dedektör':<14}{'Yöntem':<22}{'TP':>4}{'FP':>4}{'FN':>4}{'P':>7}{'R':>7}{'F1':>7}{'MAE':>7}{'ms':>8}")
-    for s in ozet:
-        print(f"{s['dedektor']:<14}{I.YONTEMLER[s['yontem']][0]:<22}{s['TP']:>4}{s['FP']:>4}{s['FN']:>4}"
+    for s in summary:
+        print(f"{s['dedektor']:<14}{I.METHODS[s['yontem']][0]:<22}{s['TP']:>4}{s['FP']:>4}{s['FN']:>4}"
               f"{s['precision']:>7.3f}{s['recall']:>7.3f}{s['F1']:>7.3f}{s['MAE']:>7.2f}{s['ort_cikarim_ms']:>8.1f}")
-    print("\nSonuçlar:", SONUC)
+    print("\nSonuçlar:", RESULTS_DIR)

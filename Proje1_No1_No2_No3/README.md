@@ -1,79 +1,79 @@
-# Zorlu Görüntüleme Koşullarında Yüz Tespiti ve Kişi Sayma: Haar Cascade ve YOLO
+# Face Detection and People Counting under Challenging Imaging Conditions: Haar Cascade vs. YOLO
 
-Bu projede aynı 28 fotoğraf üzerinde iki yüz dedektörü karşılaştırılır:
-klasik **Haar Cascade (Viola–Jones)** ve yüz için eğitilmiş **YOLOv8n-face**. Her fotoğraf
-4 sürümde test edilir: ham, parlaklık/kontrast, histogram eşitleme ve CLAHE.
+This project compares two face detectors on the same 28 photos:
+the classic **Haar Cascade (Viola–Jones)** and the face-trained **YOLOv8n-face**. Each photo
+is tested in 4 versions: raw, brightness/contrast, histogram equalization and CLAHE.
 
-## Hızlı başlangıç
+## Quick start
 
 ```bash
 pip install -r requirements.txt
-python arayuz.py          # arayüz (canlı gösterim)
-python src/deney.py       # tüm deney: tablolar ve grafikler -> sonuclar/
+python arayuz.py          # GUI (live demo)
+python src/deney.py       # full experiment: tables and charts -> sonuclar/
 ```
 
-### Arayüz nasıl kullanılır?
-1. **Fotoğraf:** listeden bir fotoğraf seçin. Listede numara, koşul ve gerçek yüz sayısı yazar.
-   Etiketsiz yeni bir fotoğraf için **Bilgisayardan aç…** butonunu kullanın.
-2. **İyileştirme:** Ham / Parlaklık-Kontrast / Histogram Eşitleme / CLAHE seçin.
-3. **▶ TESPİT ET** butonuna basın. Haar solda, YOLO sağda görünür.
-   - Yeşil kutu = gerçek yüz (etiket), mavi = doğru tespit, kırmızı = yanlış tespit
-   - Altta: bulunan/gerçek yüz sayısı, doğru, yanlış, kaçırılan ve süre (ms)
-- **Ayarlar:** Haar `minNeighbors` ve YOLO güven eşiği savunmada değiştirilebilir.
-  **Varsayılan** butonu deneydeki sabit değerlere döndürür.
-- **Tüm deneyi çalıştır:** 28 fotoğraf × 4 yöntem × 2 dedektör. Sonuç tablosu pencerede görünür ve dosyalar `sonuclar/` klasörüne yazılır.
+### How to use the GUI
+1. **Photo ("Fotoğraf"):** pick a photo from the list. Each entry shows the number, condition and true face count.
+   For a new, unlabeled photo use the **Bilgisayardan aç…** ("Open from computer") button.
+2. **Enhancement ("İyileştirme"):** choose Raw / Brightness-Contrast / Histogram Equalization / CLAHE.
+3. Press **▶ TESPİT ET** ("Detect"). Haar is shown on the left, YOLO on the right.
+   - Green box = true face (label), blue = correct detection, red = false detection
+   - Below: detected/true face count, correct, false, missed and time (ms)
+- **Settings ("Ayarlar"):** Haar `minNeighbors` and the YOLO confidence threshold can be changed during the defense.
+  The **Varsayılan** ("Default") button restores the fixed values used in the experiment.
+- **Tüm deneyi çalıştır** ("Run full experiment"): 28 photos × 4 methods × 2 detectors. The results table appears in a window and the files are written to the `sonuclar/` folder.
 
-## Klasör yapısı
+## Folder structure
 
 ```
 Proje1_No1_No2_No3/
-├── arayuz.py                 Tkinter arayüzü
+├── arayuz.py                 Tkinter GUI
 ├── src/
-│   ├── iyilestirme.py        parlaklık/kontrast + histogram eşitleme (ELLE YAZILDI), CLAHE (OpenCV)
-│   ├── dedektorler.py        HaarDedektor, YoloDedektor (sabit parametreler burada)
-│   ├── metrikler.py          IoU, bire bir eşleştirme, P/R/F1
-│   ├── veri.py               etiket ve koşul dosyalarını okuma
-│   └── deney.py              toplu deney, tablolar, grafikler
+│   ├── iyilestirme.py        brightness/contrast + histogram equalization (HAND-WRITTEN), CLAHE (OpenCV)
+│   ├── dedektorler.py        HaarDetector, YoloDetector (fixed parameters are here)
+│   ├── metrikler.py          IoU, one-to-one matching, P/R/F1
+│   ├── veri.py               reading the label and condition files
+│   └── deney.py              batch experiment, tables, charts
 ├── modeller/                 yolov8n-face.pt, haarcascade_frontalface_default.xml
 ├── veri/
-│   ├── goruntuler/           28 özgün fotoğraf (Roboflow dışa aktarımı)
-│   ├── etiketler.csv         85 referans yüz kutusu (filename, xmin, ymin, xmax, ymax)
-│   └── kosullar.csv          fotoğraf → koşul (normal / dusuk_isik / asiri_parlak)
+│   ├── goruntuler/           28 original photos (Roboflow export)
+│   ├── etiketler.csv         85 ground-truth face boxes (filename, xmin, ymin, xmax, ymax)
+│   └── kosullar.csv          photo → condition (normal / dusuk_isik / asiri_parlak)
 ├── sonuclar/                 ozet.csv, kosul_ozet.csv, goruntu_bazli.csv, parametreler.json, grafikler/, ornekler/
 ├── akis_semasi.png
 ├── Rapor.docx
 └── requirements.txt
 ```
 
-## Hazır modeller
+## Pretrained models
 
-| Dedektör | Dosya | Sürüm / kaynak |
+| Detector | File | Version / source |
 |---|---|---|
 | Haar Cascade (Viola–Jones) | `haarcascade_frontalface_default.xml` | OpenCV 4.x: https://github.com/opencv/opencv/tree/4.x/data/haarcascades |
-| YOLO yüz dedektörü | `yolov8n-face.pt` (YOLOv8 nano, tek sınıf `face`, WIDER FACE ile eğitilmiş) | akanametov/yolo-face, sürüm 1.0.0: https://github.com/akanametov/yolo-face/releases/download/1.0.0/yolov8n-face.pt |
+| YOLO face detector | `yolov8n-face.pt` (YOLOv8 nano, single class `face`, trained on WIDER FACE) | akanametov/yolo-face, version 1.0.0: https://github.com/akanametov/yolo-face/releases/download/1.0.0/yolov8n-face.pt |
 
 - `yolov8n-face.pt` SHA-256: `d545bf1add5aa736a4febac4f4f9245a6d596cd0fe70d5d57989fe0cb9e626ca`
-- Genel YOLO "person" sınıfı **kullanılmadı**. Model doğrudan yüz kutusu üretir.
-- Çıkarım için Ultralytics kullanıldı: https://github.com/ultralytics/ultralytics
+- The generic YOLO "person" class was **not used**. The model outputs face boxes directly.
+- Ultralytics was used for inference: https://github.com/ultralytics/ultralytics
 
-## Sabit deney ayarları
-Değerler test fotoğraflarına göre ayarlanmadı ve deney boyunca değiştirilmedi.
+## Fixed experiment settings
+The values were not tuned on the test photos and were not changed during the experiment.
 
-| Ayar | Değer |
+| Setting | Value |
 |---|---|
-| Haar | scaleFactor=1.1, minNeighbors=5, minSize=(24,24), gri görüntü, tam çözünürlük |
+| Haar | scaleFactor=1.1, minNeighbors=5, minSize=(24,24), grayscale image, full resolution |
 | YOLO | conf=0.25, NMS iou=0.45, imgsz=1280, CPU |
-| Parlaklık/kontrast | g = 1.3·f + 30, [0,255] aralığına kırpılır |
-| Histogram eşitleme | elle yazıldı, YCrCb'nin Y kanalı |
-| CLAHE | clipLimit=2.0, tileGridSize=8×8, LAB'ın L kanalı |
-| Eşleştirme | IoU ≥ 0.50, bire bir, en yüksek IoU önce (greedy) |
-| Süre | `cikarim_ms` = yalnızca dedektör çağrısı; `uctan_uca_ms` = iyileştirme + dedektör (dosya okuma hariç). YOLO ısındırıldıktan sonra ölçüldü. |
+| Brightness/contrast | g = 1.3·f + 30, clipped to [0,255] |
+| Histogram equalization | hand-written, Y channel of YCrCb |
+| CLAHE | clipLimit=2.0, tileGridSize=8×8, L channel of LAB |
+| Matching | IoU ≥ 0.50, one-to-one, highest IoU first (greedy) |
+| Time | `cikarim_ms` = detector call only; `uctan_uca_ms` = enhancement + detector (file reading excluded). Measured after warming up YOLO. |
 
-Rastgelelik içeren adım yoktur, sonuçlar deterministiktir. Süreler donanıma göre değişir.
+No step involves randomness; the results are deterministic. Timings depend on the hardware.
 
-## Notlar
-- Windows'ta klasör yolunda Türkçe karakter varsa (ör. `diğ`) `cv2.imread` ve `CascadeClassifier(yol)` çalışmaz.
-  Bu yüzden kod dosyaları `np.fromfile` ile ve belleğe okuyarak yükler.
-- Kendi histogram eşitlememiz `cv2.equalizeHist` ile karşılaştırıldı ve fark 0 çıktı (`sonuclar/parametreler.json`).
-- Yapay zekâ kullanımı: kodun önemli bir kısmı yapay zekâ asistanı (Claude) desteğiyle yazıldı ve grup tarafından incelendi. Ayrıntı raporda.
-- Etik: fotoğraflar grup üyelerinin onayıyla çekildi. Yüz tanıma veya kimlik etiketleme yapılmadı. Fotoğraflar yayımlanmamalıdır.
+## Notes
+- On Windows, if the folder path contains Turkish characters (e.g. `diğ`), `cv2.imread` and `CascadeClassifier(path)` fail.
+  For this reason the code loads files with `np.fromfile` and reads them into memory.
+- Our own histogram equalization was compared with `cv2.equalizeHist` and the difference was 0 (`sonuclar/parametreler.json`).
+- AI usage: a significant part of the code was written with the help of an AI assistant (Claude) and reviewed by the group. Details are in the report.
+- Ethics: the photos were taken with the consent of the group members. No face recognition or identity labeling was performed. The photos must not be published.

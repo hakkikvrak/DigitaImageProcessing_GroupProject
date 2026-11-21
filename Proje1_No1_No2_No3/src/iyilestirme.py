@@ -12,21 +12,21 @@ import cv2
 import numpy as np
 
 # ---- Sabit parametreler (deney boyunca DEĞİŞMEZ) ----
-PK_ALFA = 1.3        # kontrast katsayısı
-PK_BETA = 30         # parlaklık ekleme değeri
+BC_ALPHA = 1.3        # kontrast katsayısı
+BC_BETA = 30         # parlaklık ekleme değeri
 CLAHE_CLIP = 2.0     # CLAHE kırpma sınırı
-CLAHE_IZGARA = (8, 8)  # CLAHE karo ızgarası
+CLAHE_GRID = (8, 8)  # CLAHE karo ızgarası
 
 
-def parlaklik_kontrast(img, alfa=PK_ALFA, beta=PK_BETA):
+def brightness_contrast(img, alpha=BC_ALPHA, beta=BC_BETA):
     """g(x,y) = alfa * f(x,y) + beta  ->  [0,255] aralığına kırpılır.
     Hazır fonksiyon (cv2.convertScaleAbs vb.) kullanılmadan numpy ile yazıldı."""
-    sonuc = img.astype(np.float32) * alfa + beta
-    sonuc = np.clip(sonuc, 0, 255)
-    return np.round(sonuc).astype(np.uint8)
+    result = img.astype(np.float32) * alpha + beta
+    result = np.clip(result, 0, 255)
+    return np.round(result).astype(np.uint8)
 
 
-def histogram_esitle_gri(gri):
+def equalize_hist_gray(gray):
     """Tek kanallı (8 bit) görüntüde histogram eşitleme - elle yazılmıştır.
 
     Adımlar:
@@ -36,32 +36,32 @@ def histogram_esitle_gri(gri):
       4) Her pikseli tablodan geçir.
     """
     hist = np.zeros(256, dtype=np.int64)
-    for seviye, adet in zip(*np.unique(gri, return_counts=True)):
-        hist[seviye] = adet
+    for level, count in zip(*np.unique(gray, return_counts=True)):
+        hist[level] = count
 
     cdf = np.cumsum(hist)
     cdf_min = cdf[np.nonzero(cdf)[0][0]]          # ilk sıfır olmayan değer
-    toplam = gri.size
-    if toplam == cdf_min:                          # tek renkli görüntü
-        return gri.copy()
+    total = gray.size
+    if total == cdf_min:                          # tek renkli görüntü
+        return gray.copy()
 
-    tablo = np.round((cdf - cdf_min) / (toplam - cdf_min) * 255)
-    tablo = np.clip(tablo, 0, 255).astype(np.uint8)
-    return tablo[gri]                              # look-up table uygulaması
+    table = np.round((cdf - cdf_min) / (total - cdf_min) * 255)
+    table = np.clip(table, 0, 255).astype(np.uint8)
+    return table[gray]                              # look-up table uygulaması
 
 
-def histogram_esitle(img):
+def equalize_hist(img):
     """Renkli görüntüde Y (parlaklık) kanalına elle yazılmış histogram eşitleme."""
     if img.ndim == 2:
-        return histogram_esitle_gri(img)
+        return equalize_hist_gray(img)
     ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-    ycc[:, :, 0] = histogram_esitle_gri(ycc[:, :, 0])
+    ycc[:, :, 0] = equalize_hist_gray(ycc[:, :, 0])
     return cv2.cvtColor(ycc, cv2.COLOR_YCrCb2BGR)
 
 
-def clahe(img, clip=CLAHE_CLIP, izgara=CLAHE_IZGARA):
+def clahe(img, clip=CLAHE_CLIP, grid=CLAHE_GRID):
     """Adaptif histogram eşitleme (CLAHE) - OpenCV hazır fonksiyonu, LAB'ın L kanalında."""
-    c = cv2.createCLAHE(clipLimit=clip, tileGridSize=izgara)
+    c = cv2.createCLAHE(clipLimit=clip, tileGridSize=grid)
     if img.ndim == 2:
         return c.apply(img)
     lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
@@ -70,13 +70,13 @@ def clahe(img, clip=CLAHE_CLIP, izgara=CLAHE_IZGARA):
 
 
 # Arayüzde ve deneyde kullanılan sıra ve Türkçe adlar
-YONTEMLER = {
-    "ham": ("Ham (işlemsiz)", lambda im: im),
-    "parlaklik_kontrast": ("Parlaklık / Kontrast", parlaklik_kontrast),
-    "histogram_esitleme": ("Histogram Eşitleme", histogram_esitle),
-    "clahe": ("CLAHE (Adaptif HE)", clahe),
+METHODS = {
+    "ham": ("Raw (unprocessed)", lambda im: im),
+    "parlaklik_kontrast": ("Brightness / Contrast", brightness_contrast),
+    "histogram_esitleme": ("Histogram Equalization", equalize_hist),
+    "clahe": ("CLAHE (Adaptive HE)", clahe),
 }
 
 
-def uygula(img, yontem):
-    return YONTEMLER[yontem][1](img)
+def apply_method(img, method):
+    return METHODS[method][1](img)
