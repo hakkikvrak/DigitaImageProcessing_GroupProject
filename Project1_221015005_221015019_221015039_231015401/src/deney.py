@@ -1,15 +1,15 @@
-"""Tüm deneyi çalıştırır: 2 dedektör x 4 görüntü sürümü x 28 görüntü.
+"""Runs the full experiment: 2 detectors x 4 image versions x 28 images.
 
-Çıktılar (sonuclar/ klasörü):
-  goruntu_bazli.csv     her görüntü / dedektör / yöntem için TP, FP, FN, sayma hatası, süre
-  ozet.csv              dedektör x yöntem: TP, FP, FN, Precision, Recall, F1, MAE, süre
-  kosul_ozet.csv        dedektör x yöntem x koşul (normal / düşük ışık / aşırı parlak)
-  goruntu_kalitesi.csv  her yöntemin görüntüye etkisi (ortalama parlaklık, kontrast, entropi)
-  parametreler.json     sabit parametreler ve sürümler
-  grafikler/*.png       rapor için grafikler
-  ornekler/*.jpg        kutuların çizildiği örnek görüntüler
+Outputs (results/ folder):
+  goruntu_bazli.csv     TP, FP, FN, counting error, time per image / detector / method
+  ozet.csv              detector x method: TP, FP, FN, Precision, Recall, F1, MAE, time
+  kosul_ozet.csv        detector x method x condition (normal / low light / overexposed)
+  goruntu_kalitesi.csv  each method's effect on the image (mean brightness, contrast, entropy)
+  parametreler.json     fixed parameters and versions
+  grafikler/*.png       charts for the report
+  ornekler/*.jpg        sample images with the boxes drawn
 
-Çalıştırma:  python src/deney.py
+Run:  python src/deney.py
 """
 import csv
 import json
@@ -33,13 +33,13 @@ RESULTS_DIR = os.path.join(ROOT, "results")
 METHODS = list(I.METHODS)                         # ham, parlaklik_kontrast, ...
 CONDITIONS = list(V.CONDITION_NAMES)                       # normal, dusuk_isik, asiri_parlak
 
-# Renkler: dedektör kimliği (kategorik, sabit sıra)
+# Colors: detector identity (categorical, fixed order)
 COLORS = {"Haar Cascade": "#2a78d6", "YOLOv8n-face": "#eb6834"}
-GT_COLOR_BGR = (0, 200, 0)                             # referans kutular yeşil
+GT_COLOR_BGR = (0, 200, 0)                             # ground-truth boxes in green
 
 
 def draw_boxes(img, truth, pred, matches):
-    """Yeşil = referans, mavi = doğru tespit (TP), kırmızı = yanlış tespit (FP)."""
+    """Green = ground truth, blue = correct detection (TP), red = false detection (FP)."""
     out = img.copy()
     thickness = max(2, img.shape[1] // 400)
     for g in truth:
@@ -58,7 +58,7 @@ def entropy(gray):
 
 
 def verify_histogram():
-    """Kendi histogram eşitlememizi cv2.equalizeHist ile karşılaştırır (sadece doğrulama)."""
+    """Compares our own histogram equalization with cv2.equalizeHist (verification only)."""
     record = V.read_conditions()[0]
     gray = cv2.cvtColor(V.read_image(os.path.join(V.IMAGE_DIR, record["dosya"])),
                        cv2.COLOR_BGR2GRAY)
@@ -67,7 +67,7 @@ def verify_histogram():
 
 
 def run(progress=None, haar_param=None, yolo_param=None):
-    """Deneyi çalıştırır. ilerleme(metin, oran) arayüzde ilerleme çubuğu için kullanılır."""
+    """Runs the experiment. progress(text, ratio) is used for a progress bar."""
     os.makedirs(os.path.join(RESULTS_DIR, "grafikler"), exist_ok=True)
     os.makedirs(os.path.join(RESULTS_DIR, "ornekler"), exist_ok=True)
 
@@ -75,7 +75,7 @@ def run(progress=None, haar_param=None, yolo_param=None):
     records = V.read_conditions()
     detectors = [D.HaarDetector(**(haar_param or {})), D.YoloDetector(**(yolo_param or {}))]
 
-    # YOLO ısınma (ilk çağrı model yükleme içerir; süreye katılmasın)
+    # YOLO warm-up (the first call includes model loading; keep it out of the timing)
     detectors[1].detect(np.zeros((640, 640, 3), np.uint8))
 
     rows, quality = [], []
@@ -87,7 +87,7 @@ def run(progress=None, haar_param=None, yolo_param=None):
         for y in METHODS:
             task_no += 1
             if progress:
-                progress(f"Görüntü {k['no']} / {I.METHODS[y][0]}", task_no / total_tasks)
+                progress(f"Image {k['no']} / {I.METHODS[y][0]}", task_no / total_tasks)
             t0 = time.perf_counter()
             img = I.apply_method(raw, y)
             enhance_ms = (time.perf_counter() - t0) * 1000
@@ -108,7 +108,7 @@ def run(progress=None, haar_param=None, yolo_param=None):
                     sayma_hatasi=abs(len(pred) - len(truth)),
                     cikarim_ms=round(infer_ms, 2),
                     uctan_uca_ms=round(enhance_ms + infer_ms, 2)))
-                # Bazı örnek görüntüleri kaydet (her koşuldan biri)
+                # Save some sample images (one from each condition)
                 if int(k["no"]) in (4, 5, 6, 18, 25):
                     name = f"{int(k['no']):02d}_{y}_{d.name.split()[0].split('v')[0]}.jpg"
                     V.write_image(os.path.join(RESULTS_DIR, "ornekler", name),
@@ -143,7 +143,7 @@ def run(progress=None, haar_param=None, yolo_param=None):
 
     plot_charts(summary, condition_summary, rows, quality_summary)
     if progress:
-        progress("Bitti", 1.0)
+        progress("Done", 1.0)
     return summary, condition_summary
 
 
@@ -187,7 +187,7 @@ def write_csv(path, rows):
         w.writerows(rows)
 
 
-# ------------------------------------------------------------------ grafikler
+# ------------------------------------------------------------------ charts
 def _clean_axes(ax):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
@@ -226,11 +226,11 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
                          and all(s[k] == v for k, v in filters.items())) for y in METHODS]
                 for d in COLORS}
 
-    # 1) F1 ve MAE - tüm veri
+    # 1) F1 and MAE - full dataset
     for field, title_text, filename, fmt in [
-            ("F1", "F1 skoru (IoU ≥ 0,50) – tüm veri kümesi", "f1_genel.png", "{:.2f}"),
-            ("MAE", "Ortalama mutlak sayma hatası (MAE) – düşük daha iyi", "mae_genel.png", "{:.2f}"),
-            ("ort_cikarim_ms", "Ortalama çıkarım süresi (ms / görüntü)", "sure.png", "{:.0f}")]:
+            ("F1", "F1 score (IoU ≥ 0.50) – full dataset", "f1_genel.png", "{:.2f}"),
+            ("MAE", "Mean absolute counting error (MAE) – lower is better", "mae_genel.png", "{:.2f}"),
+            ("ort_cikarim_ms", "Mean inference time (ms / image)", "sure.png", "{:.0f}")]:
         fig, ax = plt.subplots(figsize=(8, 4.2), dpi=150)
         _bars(ax, get_values(summary, field), method_labels, fmt)
         if field == "F1":
@@ -241,43 +241,43 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
         fig.savefig(os.path.join(out_dir, filename))
         plt.close(fig)
 
-    # 2) Koşullara göre F1 (küçük çoklu grafik)
+    # 2) F1 by condition (small multiples)
     fig, axs = plt.subplots(1, 3, figsize=(13, 4), dpi=150, sharey=True)
     for ax, condition in zip(axs, CONDITIONS):
-        _bars(ax, get_values(condition_summary, "F1", kosul=condition), ["Ham", "P/K", "HE", "CLAHE"])
+        _bars(ax, get_values(condition_summary, "F1", kosul=condition), ["Raw", "B/C", "HE", "CLAHE"])
         ax.set_title(V.CONDITION_NAMES[condition], fontsize=11)
         ax.set_ylim(0, 1.1)
     axs[0].set_ylabel("F1")
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
-    fig.suptitle("Çekim koşuluna göre F1 skoru", x=0.01, ha="left", fontsize=12)
+    fig.suptitle("F1 score by capture condition", x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
     fig.savefig(os.path.join(out_dir, "f1_kosullara_gore.png"))
     plt.close(fig)
 
-    # 3) Recall koşullara göre
+    # 3) Recall by condition
     fig, axs = plt.subplots(1, 3, figsize=(13, 4), dpi=150, sharey=True)
     for ax, condition in zip(axs, CONDITIONS):
-        _bars(ax, get_values(condition_summary, "recall", kosul=condition), ["Ham", "P/K", "HE", "CLAHE"])
+        _bars(ax, get_values(condition_summary, "recall", kosul=condition), ["Raw", "B/C", "HE", "CLAHE"])
         ax.set_title(V.CONDITION_NAMES[condition], fontsize=11)
         ax.set_ylim(0, 1.1)
     axs[0].set_ylabel("Recall")
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
-    fig.suptitle("Çekim koşuluna göre Recall (bulunan yüz oranı)", x=0.01, ha="left", fontsize=12)
+    fig.suptitle("Recall by capture condition (share of faces found)", x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
     fig.savefig(os.path.join(out_dir, "recall_kosullara_gore.png"))
     plt.close(fig)
 
-    # 4) Araştırma sorusu: iyileştirme, ham görüntüye göre F1'i artırıyor mu?
+    # 4) Research question: does enhancement increase F1 compared with the raw image?
     fig, axs = plt.subplots(1, 3, figsize=(13, 4), dpi=150, sharey=True)
     for ax, condition in zip(axs, CONDITIONS):
         f1 = get_values(condition_summary, "F1", kosul=condition)
-        diff = {d: [v - f1[d][0] for v in f1[d][1:]] for d in COLORS}   # ham'a göre fark
-        _bars(ax, diff, ["P/K", "HE", "CLAHE"], "{:+.2f}")
+        diff = {d: [v - f1[d][0] for v in f1[d][1:]] for d in COLORS}   # difference from raw
+        _bars(ax, diff, ["B/C", "HE", "CLAHE"], "{:+.2f}")
         ax.axhline(0, color="#888888", linewidth=1)
         ax.set_title(V.CONDITION_NAMES[condition], fontsize=11)
-    axs[0].set_ylabel("F1 farkı (iyileştirilmiş − ham)")
+    axs[0].set_ylabel("F1 difference (enhanced − raw)")
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
-    fig.suptitle("İyileştirme ham görüntüye göre F1'i ne kadar değiştirdi? (0'ın altı = kötüleşme)",
+    fig.suptitle("How much did enhancement change F1 vs. the raw image? (below 0 = worse)",
                  x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
     fig.savefig(os.path.join(out_dir, "f1_degisimi.png"))
@@ -289,9 +289,9 @@ if __name__ == "__main__":
         print(f"\r[{ratio * 100:5.1f}%] {msg:<50}", end="", flush=True)
 
     summary, _ = run(show_progress)
-    print("\n\nÖZET (tüm veri kümesi)")
-    print(f"{'Dedektör':<14}{'Yöntem':<22}{'TP':>4}{'FP':>4}{'FN':>4}{'P':>7}{'R':>7}{'F1':>7}{'MAE':>7}{'ms':>8}")
+    print("\n\nSUMMARY (full dataset)")
+    print(f"{'Detector':<14}{'Method':<22}{'TP':>4}{'FP':>4}{'FN':>4}{'P':>7}{'R':>7}{'F1':>7}{'MAE':>7}{'ms':>8}")
     for s in summary:
         print(f"{s['dedektor']:<14}{I.METHODS[s['yontem']][0]:<22}{s['TP']:>4}{s['FP']:>4}{s['FN']:>4}"
               f"{s['precision']:>7.3f}{s['recall']:>7.3f}{s['F1']:>7.3f}{s['MAE']:>7.2f}{s['ort_cikarim_ms']:>8.1f}")
-    print("\nSonuçlar:", RESULTS_DIR)
+    print("\nResults:", RESULTS_DIR)

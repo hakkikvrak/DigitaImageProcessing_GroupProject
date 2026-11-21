@@ -1,19 +1,18 @@
-"""Yüz Tespiti – Haar Cascade ile YOLO karşılaştırma arayüzü (Tkinter).
+"""Face Detection – Haar Cascade vs. YOLO comparison GUI (Tkinter).
 
-Kullanım:  python arayuz.py
+Usage:  python arayuz.py
 
-  1) Fotoğraf seç (veri kümesinden ya da bilgisayardan)
-  2) İyileştirme yöntemini seç
-  3) "TESPİT ET" butonuna bas  ->  iki dedektörün sonucu yan yana görünür
+  1) Select a photo (from the dataset or from the computer)
+  2) Select the enhancement method
+  3) Press "DETECT"  ->  the results of both detectors appear side by side
 
-Renkler: YEŞİL = gerçek yüz (etiket), MAVİ = doğru tespit, KIRMIZI = yanlış tespit
+Colors: GREEN = true face (label), BLUE = correct detection, RED = false detection
 """
 import csv
 import os
-import subprocess
 import sys
 
-# Konsolsuz çalışırken (pythonw / kısayol) stdout/stderr yoktur; kütüphanelerin log çağrıları çökmesin.
+# Without a console (pythonw / shortcut) there is no stdout/stderr; keep library log calls from crashing.
 if sys.stdout is None:
     sys.stdout = open(os.devnull, "w", encoding="utf-8")
 if sys.stderr is None:
@@ -49,17 +48,17 @@ class App(tk.Tk):
 
         self.labels = V.read_labels()
         self.records = V.read_conditions()
-        self.selected_path = None           # dışarıdan açılan fotoğraf
+        self.selected_path = None           # photo opened from the computer
         self.haar = D.HaarDetector()
-        self.yolo = None                 # arka planda yüklenecek
-        self._photos = {}               # Tk görüntü referansları
-        self._read_summary()                 # tüm veri kümesi skorları (varsa)
+        self.yolo = None                 # loaded in the background
+        self._photos = {}               # Tk image references
+        self._read_summary()                 # full-dataset scores (if available)
         self._blank = ImageTk.PhotoImage(Image.new("RGB", (PANEL_W, PANEL_H), (244, 244, 244)))
 
         self._build_ui()
         threading.Thread(target=self._load_yolo, daemon=True).start()
 
-    # ------------------------------------------------------------ arayüz
+    # ------------------------------------------------------------ GUI
     def _build_ui(self):
         style = ttk.Style(self)
         style.theme_use("clam")
@@ -67,14 +66,14 @@ class App(tk.Tk):
         style.configure("TFrame", background="white")
         style.configure("TLabelframe", background="white")
         style.configure("TLabelframe.Label", background="white", font=FONT_B)
-        # Ana buton (TESPİT ET): dolu mavi
+        # Main button (DETECT): solid blue
         style.configure("Buyuk.TButton", font=("Segoe UI", 12, "bold"), padding=(22, 9),
                        foreground="white", background="#2a78d6", bordercolor="#1c5cab",
                        lightcolor="#2a78d6", darkcolor="#2a78d6", focuscolor="#2a78d6")
         style.map("Buyuk.TButton",
                  background=[("disabled", "#9ec5f4"), ("active", "#1c5cab")],
                  lightcolor=[("active", "#1c5cab")], darkcolor=[("active", "#1c5cab")])
-        # Diğer tüm butonlar: tek tip, açık mavi zemin + mavi yazı
+        # All other buttons: uniform, light blue background + blue text
         style.configure("Ikincil.TButton", font=("Segoe UI", 10, "bold"), padding=(14, 7),
                        foreground="#1c5cab", background="#eef4fc", bordercolor="#86b6ef",
                        lightcolor="#eef4fc", darkcolor="#eef4fc", focuscolor="#eef4fc")
@@ -82,7 +81,7 @@ class App(tk.Tk):
                  background=[("active", "#d8e7fa")],
                  lightcolor=[("active", "#d8e7fa")], darkcolor=[("active", "#d8e7fa")])
 
-        # ---- Kaydırılabilir alan: ekran küçükse alt kısım sıkışmasın, kaydırılarak görülsün
+        # ---- Scrollable area: on small screens the bottom part is not squeezed; scroll to see it
         canvas = tk.Canvas(self, bg="white", highlightthickness=0)
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
         canvas.configure(yscrollcommand=scrollbar.set)
@@ -94,7 +93,7 @@ class App(tk.Tk):
         canvas.bind("<Configure>", lambda e: canvas.itemconfigure(body_id, width=e.width))
         canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-e.delta / 120), "units"))
 
-        # ---- Üst: 3 adım
+        # ---- Top: 3 steps
         top = ttk.Frame(body, padding=(14, 12, 14, 4))
         top.pack(fill="x")
 
@@ -122,7 +121,7 @@ class App(tk.Tk):
         self.lbl_selected = ttk.Label(top, text="", foreground="#666666")
         self.lbl_selected.grid(row=1, column=1, columnspan=4, sticky="w", padx=6, pady=(4, 0))
 
-        # ---- Renk açıklaması
+        # ---- Color legend
         legend_frame = ttk.Frame(body, padding=(14, 0))
         legend_frame.pack(fill="x")
         for color, msg in [("#00c800", "True face (label)"), ("#0078ff", "Correct detection"),
@@ -130,7 +129,7 @@ class App(tk.Tk):
             tk.Label(legend_frame, text="■", fg=color, bg="white", font=("Segoe UI", 14)).pack(side="left")
             ttk.Label(legend_frame, text=msg + "     ").pack(side="left")
 
-        # ---- Orta: iki panel yan yana
+        # ---- Middle: two panels side by side
         middle = ttk.Frame(body, padding=(14, 6))
         middle.pack(fill="both", expand=True)
         self.panels = {}
@@ -148,7 +147,7 @@ class App(tk.Tk):
             self.panels[col] = (image_lbl, result_lbl, overall)
         middle.rowconfigure(0, weight=1)
 
-        # ---- Alt: ayarlar + toplu deney
+        # ---- Bottom: settings
         bottom = ttk.Frame(body, padding=(14, 4, 14, 10))
         bottom.pack(fill="x")
         settings = ttk.LabelFrame(bottom, text="Settings (fixed in the experiment; can be changed in the defense)", padding=6)
@@ -169,17 +168,17 @@ class App(tk.Tk):
 
         self._select_from_dataset()
 
-    # ------------------------------------------------------------ yardımcılar
+    # ------------------------------------------------------------ helpers
     def _load_yolo(self):
         try:
             self.yolo = D.YoloDetector()
-            self.yolo.detect(np.zeros((64, 64, 3), np.uint8))   # ısınma (ilk çağrı yavaştır)
+            self.yolo.detect(np.zeros((64, 64, 3), np.uint8))   # warm-up (the first call is slow)
             self.after(0, lambda: self.status.config(text="Ready. Select a photo and a method, then press DETECT."))
         except Exception as e:
             self.after(0, lambda: messagebox.showerror("YOLO could not be loaded", str(e)))
 
     def _read_summary(self):
-        """sonuclar/ozet.csv varsa: (dedektör, yöntem) -> tüm veri kümesi skorları."""
+        """If results/ozet.csv exists: (detector, method) -> full-dataset scores."""
         path = os.path.join(deney.RESULTS_DIR, "ozet.csv")
         self.summary = {}
         if os.path.exists(path):
@@ -188,7 +187,7 @@ class App(tk.Tk):
                     self.summary[(r["dedektor"], r["yontem"])] = r
 
     def _clear(self):
-        """Fotoğraf/yöntem değişince eski sonucu ekrandan kaldır (karışıklık olmasın)."""
+        """When the photo/method changes, clear the old result from the screen (avoid confusion)."""
         for image_lbl, result_lbl, overall in self.panels.values():
             image_lbl.config(image=self._blank)
             result_lbl.config(text="")
@@ -225,14 +224,7 @@ class App(tk.Tk):
             messagebox.showwarning("Settings error", "Settings values must be numbers.")
             return False
 
-    def _open_folder(self):
-        os.makedirs(deney.RESULTS_DIR, exist_ok=True)
-        if sys.platform.startswith("win"):
-            os.startfile(deney.RESULTS_DIR)
-        else:
-            subprocess.Popen(["xdg-open", deney.RESULTS_DIR])
-
-    # ------------------------------------------------------------ tespit
+    # ------------------------------------------------------------ detection
     def _detect(self):
         if self.yolo is None:
             messagebox.showinfo("Please wait", "The YOLO model is still loading, try again in a few seconds.")
@@ -292,7 +284,7 @@ class App(tk.Tk):
         self.status.config(text="Done. You can select another photo or method and try again.")
 
     def _overall_text(self, detector, method):
-        """Seçili yöntemin tüm veri kümesindeki (28 foto) skorları – sonuclar/ozet.csv'den."""
+        """Scores of the selected method on the full dataset (28 photos) – from results/ozet.csv."""
         s = self.summary.get((detector, method))
         if not s:
             return "FULL DATASET: not computed yet → run python src/deney.py."
@@ -308,52 +300,6 @@ class App(tk.Tk):
         photo = ImageTk.PhotoImage(Image.fromarray(cv2.cvtColor(small, cv2.COLOR_BGR2RGB)))
         self._photos[slot] = photo
         label.config(image=photo, width=PANEL_W, height=PANEL_H)
-
-    # ------------------------------------------------------------ toplu deney
-    def _run_full_experiment(self):
-        if self.yolo is None:
-            messagebox.showinfo("Please wait", "The YOLO model is still loading.")
-            return
-        if not self._get_params():
-            return
-        window = tk.Toplevel(self)
-        window.title("Full experiment – results table")
-        window.configure(bg="white")
-        window.geometry("1000x520")
-        progress = ttk.Progressbar(window, length=960, maximum=1.0)
-        progress.pack(padx=20, pady=(16, 4))
-        progress_lbl = ttk.Label(window, text="Starting… (may take a few minutes)")
-        progress_lbl.pack()
-
-        columns = ["Detector", "Method", "TP", "FP", "FN", "Precision", "Recall", "F1", "MAE", "ms/image"]
-        table = ttk.Treeview(window, columns=columns, show="headings", height=10)
-        for s in columns:
-            table.heading(s, text=s)
-            table.column(s, width=150 if s in ("Detector", "Method") else 80, anchor="center")
-        table.pack(fill="both", expand=True, padx=20, pady=12)
-
-        def update_progress(msg, ratio):
-            self.after(0, lambda: (progress.config(value=ratio), progress_lbl.config(text=msg)))
-
-        def task():
-            try:
-                summary, _ = deney.run(update_progress, haar_param=dict(self.haar.param),
-                                         yolo_param=dict(self.yolo.param))
-            except Exception as e:
-                self.after(0, lambda: messagebox.showerror("Error", str(e)))
-                return
-
-            def fill_table():
-                for s in summary:
-                    table.insert("", "end", values=(
-                        s["dedektor"], I.METHODS[s["yontem"]][0], s["TP"], s["FP"], s["FN"],
-                        f"{s['precision']:.3f}", f"{s['recall']:.3f}", f"{s['F1']:.3f}",
-                        f"{s['MAE']:.2f}", f"{s['ort_cikarim_ms']:.0f}"))
-                progress_lbl.config(text="Done. Tables and charts were saved to the 'sonuclar' folder.")
-                self._read_summary()   # ana penceredeki "tüm veri kümesi" skorlarını güncelle
-            self.after(0, fill_table)
-
-        threading.Thread(target=task, daemon=True).start()
 
 
 if __name__ == "__main__":

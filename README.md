@@ -75,5 +75,5 @@ No step involves randomness; the results are deterministic. Timings depend on th
 - On Windows, if the folder path contains Turkish characters (e.g. `diğ`), `cv2.imread` and `CascadeClassifier(path)` fail.
   For this reason the code loads files with `np.fromfile` and reads them into memory.
 - Our own histogram equalization was compared with `cv2.equalizeHist` and the difference was 0 (`sonuclar/parametreler.json`).
-- AI usage: part of the code was written with the help of an AI assistant (Claude) and reviewed by the group. Details are in the report.
+- AI usage: a significant part of the code was written with the help of an AI assistant (Claude) and reviewed by the group. Details are in the report.
 - Ethics: the photos were taken with the consent of the group members. No face recognition or identity labeling was performed. The photos must not be published.

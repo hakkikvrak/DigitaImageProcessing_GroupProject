@@ -1,57 +1,57 @@
-"""Görüntü iyileştirme işlemleri.
+"""Image enhancement operations.
 
-- parlaklik_kontrast : KENDİ YAZDIĞIMIZ doğrusal dönüşüm  (g = alfa*f + beta)
-- histogram_esitle   : KENDİ YAZDIĞIMIZ histogram eşitleme (cv2.equalizeHist KULLANILMADI)
-- clahe              : OpenCV'nin hazır CLAHE fonksiyonu (adaptif histogram eşitleme)
+- brightness_contrast : OUR OWN linear transform  (g = alpha*f + beta)
+- equalize_hist       : OUR OWN histogram equalization (cv2.equalizeHist NOT used)
+- clahe               : OpenCV's built-in CLAHE (adaptive histogram equalization)
 
-Renkli görüntüde işlemler sadece parlaklık kanalına (YCrCb'nin Y kanalı /
-LAB'ın L kanalı) uygulanır; böylece renkler bozulmaz ve YOLO'ya renkli
-görüntü verilebilir.
+On color images the operations are applied only to the luminance channel (Y of YCrCb /
+L of LAB); so colors are preserved and YOLO can still be given a color
+image.
 """
 import cv2
 import numpy as np
 
-# ---- Sabit parametreler (deney boyunca DEĞİŞMEZ) ----
-BC_ALPHA = 1.3        # kontrast katsayısı
-BC_BETA = 30         # parlaklık ekleme değeri
-CLAHE_CLIP = 2.0     # CLAHE kırpma sınırı
-CLAHE_GRID = (8, 8)  # CLAHE karo ızgarası
+# ---- Fixed parameters (do NOT change during the experiment) ----
+BC_ALPHA = 1.3        # contrast gain
+BC_BETA = 30         # brightness offset
+CLAHE_CLIP = 2.0     # CLAHE clip limit
+CLAHE_GRID = (8, 8)  # CLAHE tile grid
 
 
 def brightness_contrast(img, alpha=BC_ALPHA, beta=BC_BETA):
-    """g(x,y) = alfa * f(x,y) + beta  ->  [0,255] aralığına kırpılır.
-    Hazır fonksiyon (cv2.convertScaleAbs vb.) kullanılmadan numpy ile yazıldı."""
+    """g(x,y) = alpha * f(x,y) + beta  ->  clipped to [0,255].
+    Written with numpy, without a ready-made function (cv2.convertScaleAbs etc.)."""
     result = img.astype(np.float32) * alpha + beta
     result = np.clip(result, 0, 255)
     return np.round(result).astype(np.uint8)
 
 
 def equalize_hist_gray(gray):
-    """Tek kanallı (8 bit) görüntüde histogram eşitleme - elle yazılmıştır.
+    """Histogram equalization on a single-channel (8-bit) image - written by hand.
 
-    Adımlar:
-      1) Histogram: her gri seviyeden (0..255) kaç piksel var?
-      2) Kümülatif dağılım (CDF)
-      3) Dönüşüm tablosu: T(k) = round( (CDF(k) - CDF_min) / (N - CDF_min) * 255 )
-      4) Her pikseli tablodan geçir.
+    Steps:
+      1) Histogram: how many pixels of each gray level (0..255)?
+      2) Cumulative distribution (CDF)
+      3) Mapping table: T(k) = round( (CDF(k) - CDF_min) / (N - CDF_min) * 255 )
+      4) Map every pixel through the table.
     """
     hist = np.zeros(256, dtype=np.int64)
     for level, count in zip(*np.unique(gray, return_counts=True)):
         hist[level] = count
 
     cdf = np.cumsum(hist)
-    cdf_min = cdf[np.nonzero(cdf)[0][0]]          # ilk sıfır olmayan değer
+    cdf_min = cdf[np.nonzero(cdf)[0][0]]          # first non-zero value
     total = gray.size
-    if total == cdf_min:                          # tek renkli görüntü
+    if total == cdf_min:                          # single-color image
         return gray.copy()
 
     table = np.round((cdf - cdf_min) / (total - cdf_min) * 255)
     table = np.clip(table, 0, 255).astype(np.uint8)
-    return table[gray]                              # look-up table uygulaması
+    return table[gray]                              # apply the look-up table
 
 
 def equalize_hist(img):
-    """Renkli görüntüde Y (parlaklık) kanalına elle yazılmış histogram eşitleme."""
+    """Hand-written histogram equalization on the Y (luminance) channel of a color image."""
     if img.ndim == 2:
         return equalize_hist_gray(img)
     ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
@@ -60,7 +60,7 @@ def equalize_hist(img):
 
 
 def clahe(img, clip=CLAHE_CLIP, grid=CLAHE_GRID):
-    """Adaptif histogram eşitleme (CLAHE) - OpenCV hazır fonksiyonu, LAB'ın L kanalında."""
+    """Adaptive histogram equalization (CLAHE) - OpenCV built-in, on the L channel of LAB."""
     c = cv2.createCLAHE(clipLimit=clip, tileGridSize=grid)
     if img.ndim == 2:
         return c.apply(img)
@@ -69,7 +69,7 @@ def clahe(img, clip=CLAHE_CLIP, grid=CLAHE_GRID):
     return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
 
 
-# Arayüzde ve deneyde kullanılan sıra ve Türkçe adlar
+# Order and display names used in the GUI and the experiment
 METHODS = {
     "ham": ("Raw (unprocessed)", lambda im: im),
     "parlaklik_kontrast": ("Brightness / Contrast", brightness_contrast),

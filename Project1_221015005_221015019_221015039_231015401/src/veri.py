@@ -1,4 +1,4 @@
-"""Veri kümesi: görüntüler, referans (ground truth) kutular ve çekim koşulları."""
+"""Dataset: images, ground-truth boxes and capture conditions."""
 import csv
 import os
 from collections import defaultdict
@@ -6,7 +6,7 @@ from collections import defaultdict
 import cv2
 import numpy as np
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # proje kök klasörü
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # project root folder
 DATA_DIR = os.path.join(ROOT, "data")
 IMAGE_DIR = os.path.join(DATA_DIR, "goruntuler")
 
@@ -18,7 +18,7 @@ CONDITION_NAMES = {
 
 
 def read_labels():
-    """dosya_adi -> [(x1, y1, x2, y2), ...]  (Roboflow CSV formatı)"""
+    """dosya_adi -> [(x1, y1, x2, y2), ...]  (Roboflow CSV format)"""
     boxes = defaultdict(list)
     with open(os.path.join(DATA_DIR, "etiketler.csv"), encoding="utf-8") as f:
         for r in csv.DictReader(f):
@@ -34,7 +34,7 @@ def read_conditions():
 
 
 def read_image(path):
-    """Türkçe karakterli yollarda da çalışan okuma (cv2.imread Windows'ta sorun çıkarabilir)."""
+    """Reading that also works on paths with Turkish characters (cv2.imread can fail on Windows)."""
     data = np.fromfile(path, dtype=np.uint8)
     return cv2.imdecode(data, cv2.IMREAD_COLOR)
 

@@ -1,10 +1,10 @@
-"""IoU, bire bir eşleştirme ve performans ölçütleri (TP, FP, FN, P, R, F1, MAE)."""
+"""IoU, one-to-one matching and performance metrics (TP, FP, FN, P, R, F1, MAE)."""
 
 IOU_THRESHOLD = 0.50
 
 
 def iou(a, b):
-    """İki kutunun kesişim / birleşim oranı. Kutu: (x1, y1, x2, y2, ...)."""
+    """Intersection over union of two boxes. Box: (x1, y1, x2, y2, ...)."""
     x1, y1 = max(a[0], b[0]), max(a[1], b[1])
     x2, y2 = min(a[2], b[2]), min(a[3], b[3])
     intersection = max(0, x2 - x1) * max(0, y2 - y1)
@@ -15,10 +15,10 @@ def iou(a, b):
 
 
 def match(preds, truths, threshold=IOU_THRESHOLD):
-    """Bire bir (greedy) eşleştirme: en yüksek IoU'lu çiftten başlayarak,
-    her tahmin ve her gerçek kutu en fazla bir kez eşleşir; IoU >= eşik olmalı.
+    """One-to-one (greedy) matching: starting from the pair with the highest IoU,
+    each prediction and each true box is matched at most once; IoU >= threshold.
 
-    Döndürür: (eslesmeler[(tahmin_i, gercek_j, iou)], TP, FP, FN)
+    Returns: (matches[(pred_i, truth_j, iou)], TP, FP, FN)
     """
     pairs = []
     for i, t in enumerate(preds):
