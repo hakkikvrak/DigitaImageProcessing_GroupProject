@@ -152,14 +152,6 @@ class Uygulama(tk.Tk):
         ttk.Button(ayar, text="Varsayılan", style="Ikincil.TButton",
                    command=self._varsayilan).pack(side="left")
 
-        # Toplu işlemler: ayarların hemen yanında (sağ köşede Windows yazısının altında kalmasın)
-        islem = ttk.LabelFrame(alt, text="Tüm veri kümesi", padding=6)
-        islem.pack(side="left", padx=(16, 0))
-        ttk.Button(islem, text="Tüm deneyi çalıştır", style="Ikincil.TButton",
-                   command=self._toplu_deney).pack(side="left")
-        ttk.Button(islem, text="Sonuç klasörünü aç", style="Ikincil.TButton",
-                   command=self._klasor_ac).pack(side="left", padx=(8, 0))
-
         self.durum = ttk.Label(self, text="YOLO modeli yükleniyor…", foreground="#666666", padding=(14, 0, 0, 6))
         self.durum.pack(fill="x")
 
