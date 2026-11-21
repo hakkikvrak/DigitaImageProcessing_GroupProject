@@ -82,8 +82,20 @@ class App(tk.Tk):
                  background=[("active", "#d8e7fa")],
                  lightcolor=[("active", "#d8e7fa")], darkcolor=[("active", "#d8e7fa")])
 
+        # ---- Kaydırılabilir alan: ekran küçükse alt kısım sıkışmasın, kaydırılarak görülsün
+        canvas = tk.Canvas(self, bg="white", highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        canvas.configure(yscrollcommand=scrollbar.set)
+        scrollbar.pack(side="right", fill="y")
+        canvas.pack(side="left", fill="both", expand=True)
+        body = ttk.Frame(canvas)
+        body_id = canvas.create_window((0, 0), window=body, anchor="nw")
+        body.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.bind("<Configure>", lambda e: canvas.itemconfigure(body_id, width=e.width))
+        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-e.delta / 120), "units"))
+
         # ---- Üst: 3 adım
-        top = ttk.Frame(self, padding=(14, 12, 14, 4))
+        top = ttk.Frame(body, padding=(14, 12, 14, 4))
         top.pack(fill="x")
 
         ttk.Label(top, text="1) Photo:", font=FONT_B).grid(row=0, column=0, sticky="w")
@@ -111,7 +123,7 @@ class App(tk.Tk):
         self.lbl_selected.grid(row=1, column=1, columnspan=4, sticky="w", padx=6, pady=(4, 0))
 
         # ---- Renk açıklaması
-        legend_frame = ttk.Frame(self, padding=(14, 0))
+        legend_frame = ttk.Frame(body, padding=(14, 0))
         legend_frame.pack(fill="x")
         for color, msg in [("#00c800", "True face (label)"), ("#0078ff", "Correct detection"),
                             ("#ff0000", "False detection")]:
@@ -119,7 +131,7 @@ class App(tk.Tk):
             ttk.Label(legend_frame, text=msg + "     ").pack(side="left")
 
         # ---- Orta: iki panel yan yana
-        middle = ttk.Frame(self, padding=(14, 6))
+        middle = ttk.Frame(body, padding=(14, 6))
         middle.pack(fill="both", expand=True)
         self.panels = {}
         for col, name in enumerate(["Haar Cascade (classic)", "YOLOv8n-face"]):
@@ -137,7 +149,7 @@ class App(tk.Tk):
         middle.rowconfigure(0, weight=1)
 
         # ---- Alt: ayarlar + toplu deney
-        bottom = ttk.Frame(self, padding=(14, 4, 14, 10))
+        bottom = ttk.Frame(body, padding=(14, 4, 14, 10))
         bottom.pack(fill="x")
         settings = ttk.LabelFrame(bottom, text="Settings (fixed in the experiment; can be changed in the defense)", padding=6)
         settings.pack(side="left")
@@ -152,7 +164,7 @@ class App(tk.Tk):
         ttk.Button(settings, text="Default", style="Ikincil.TButton",
                    command=self._defaults).pack(side="left")
 
-        self.status = ttk.Label(self, text="Loading YOLO model…", foreground="#666666", padding=(14, 0, 0, 6))
+        self.status = ttk.Label(body, text="Loading YOLO model…", foreground="#666666", padding=(14, 0, 0, 6))
         self.status.pack(fill="x")
 
         self._select_from_dataset()

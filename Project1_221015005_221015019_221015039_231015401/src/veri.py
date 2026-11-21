@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # proje kök klasörü
-DATA_DIR = os.path.join(ROOT, "veri")
+DATA_DIR = os.path.join(ROOT, "data")
 IMAGE_DIR = os.path.join(DATA_DIR, "goruntuler")
 
 CONDITION_NAMES = {

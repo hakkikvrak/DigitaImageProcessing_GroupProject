@@ -29,7 +29,7 @@ import metrikler as M             # noqa: E402
 import veri as V                  # noqa: E402
 
 ROOT = V.ROOT
-RESULTS_DIR = os.path.join(ROOT, "sonuclar")
+RESULTS_DIR = os.path.join(ROOT, "results")
 METHODS = list(I.METHODS)                         # ham, parlaklik_kontrast, ...
 CONDITIONS = list(V.CONDITION_NAMES)                       # normal, dusuk_isik, asiri_parlak
 

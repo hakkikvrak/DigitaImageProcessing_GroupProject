@@ -7,7 +7,7 @@ import os
 import cv2
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # proje kök klasörü
-MODEL_DIR = os.path.join(ROOT, "modeller")
+MODEL_DIR = os.path.join(ROOT, "models")
 
 # ---- Sabit parametreler ----
 HAAR_PARAM = dict(scaleFactor=1.1, minNeighbors=5, minSize=(24, 24))
