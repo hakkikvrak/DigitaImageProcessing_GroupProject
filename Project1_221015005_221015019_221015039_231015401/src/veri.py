@@ -11,9 +11,14 @@ DATA_DIR = os.path.join(ROOT, "data")
 IMAGE_DIR = os.path.join(DATA_DIR, "goruntuler")
 
 CONDITION_NAMES = {
-    "normal": "Normal light",
-    "dusuk_isik": "Low light",
-    "asiri_parlak": "Overexposed",
+    "dusuk_isik": "Dim",
+    "normal": "Normal",
+    "asiri_parlak": "Bright",
+}
+
+DISTANCE_NAMES = {
+    "uzak": "Far",
+    "yakin": "Close",
 }
 
 
@@ -28,7 +33,7 @@ def read_labels():
 
 
 def read_conditions():
-    """[{'no', 'dosya', 'kosul', 'gercek_yuz_sayisi', 'not'}, ...]"""
+    """[{'no', 'dosya', 'kosul', 'mesafe', 'gercek_yuz_sayisi', 'not'}, ...]"""
     with open(os.path.join(DATA_DIR, "kosullar.csv"), encoding="utf-8") as f:
         return list(csv.DictReader(f))
 

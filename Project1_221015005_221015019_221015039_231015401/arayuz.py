@@ -99,7 +99,8 @@ class App(tk.Tk):
 
         ttk.Label(top, text="1) Photo:", font=FONT_B).grid(row=0, column=0, sticky="w")
         self.cb_photo = ttk.Combobox(top, state="readonly", width=46, font=FONT, values=[
-            f"{int(k['no']):02d}  –  {V.CONDITION_NAMES[k['kosul']]}  –  {k['gercek_yuz_sayisi']} faces"
+            f"{int(k['no']):02d}  –  {V.DISTANCE_NAMES[k['mesafe']]} – {V.CONDITION_NAMES[k['kosul']]}"
+            f"  –  {k['gercek_yuz_sayisi']} faces"
             for k in self.records])
         self.cb_photo.current(0)
         self.cb_photo.grid(row=0, column=1, padx=6)
