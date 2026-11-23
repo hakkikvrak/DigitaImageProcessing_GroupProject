@@ -8,40 +8,48 @@ is tested in 4 versions: raw, brightness/contrast, histogram equalization and CL
 
 ```bash
 pip install -r requirements.txt
-python arayuz.py          # GUI (live demo)
-python src/deney.py       # full experiment: tables and charts -> sonuclar/
+python gui.py             # GUI (live demo)
+python src/experiment.py  # full experiment: tables and charts -> results/
 ```
 
+On Windows, `start.bat` starts the GUI as well.
+
 ### How to use the GUI
-1. **Photo ("Fotoğraf"):** pick a photo from the list. Each entry shows the number, condition and true face count.
-   For a new, unlabeled photo use the **Bilgisayardan aç…** ("Open from computer") button.
-2. **Enhancement ("İyileştirme"):** choose Raw / Brightness-Contrast / Histogram Equalization / CLAHE.
-3. Press **▶ TESPİT ET** ("Detect"). Haar is shown on the left, YOLO on the right.
+1. **Photo:** pick a photo from the list. Each entry shows the number, distance (Far / Close),
+   lighting (Dim / Normal / Bright) and true face count, e.g. `00 – Far – Normal – 3 faces`.
+   For a new, unlabeled photo use the **Open from computer…** button.
+2. **Enhancement:** choose Raw / Brightness-Contrast / Histogram Equalization / CLAHE.
+3. Press **▶ DETECT**. Haar is shown on the left, YOLO on the right.
    - Green box = true face (label), blue = correct detection, red = false detection
-   - Below: detected/true face count, correct, false, missed and time (ms)
-- **Settings ("Ayarlar"):** Haar `minNeighbors` and the YOLO confidence threshold can be changed during the defense.
-  The **Varsayılan** ("Default") button restores the fixed values used in the experiment.
-- **Tüm deneyi çalıştır** ("Run full experiment"): 28 photos × 4 methods × 2 detectors. The results table appears in a window and the files are written to the `sonuclar/` folder.
+   - Below: detected/true face count, correct, false, missed, Precision/Recall/F1 and time (ms) for this photo,
+     plus the full-dataset scores of the selected method (from `results/summary.csv`)
+- **Settings:** Haar `minNeighbors` and the YOLO confidence threshold can be changed during the defense.
+  The **Default** button restores the fixed values used in the experiment.
+- The full experiment (28 photos × 4 methods × 2 detectors) is run from the command line with
+  `python src/experiment.py`; the files are written to the `results/` folder.
 
 ## Folder structure
 
 ```
-Proje1_No1_No2_No3/
-├── arayuz.py                 Tkinter GUI
+Project1_221015005_221015019_221015039_231015401/
+├── gui.py                    Tkinter GUI
 ├── src/
-│   ├── iyilestirme.py        brightness/contrast + histogram equalization (HAND-WRITTEN), CLAHE (OpenCV)
-│   ├── dedektorler.py        HaarDetector, YoloDetector (fixed parameters are here)
-│   ├── metrikler.py          IoU, one-to-one matching, P/R/F1
-│   ├── veri.py               reading the label and condition files
-│   └── deney.py              batch experiment, tables, charts
-├── modeller/                 yolov8n-face.pt, haarcascade_frontalface_default.xml
-├── veri/
-│   ├── goruntuler/           28 original photos (Roboflow export)
-│   ├── etiketler.csv         85 ground-truth face boxes (filename, xmin, ymin, xmax, ymax)
-│   └── kosullar.csv          photo → condition (normal / dusuk_isik / asiri_parlak)
-├── sonuclar/                 ozet.csv, kosul_ozet.csv, goruntu_bazli.csv, parametreler.json, grafikler/, ornekler/
-├── akis_semasi.png
-├── Rapor.docx
+│   ├── enhancement.py        brightness/contrast + histogram equalization (HAND-WRITTEN), CLAHE (OpenCV)
+│   ├── detectors.py          HaarDetector, YoloDetector (fixed parameters are here)
+│   ├── metrics.py            IoU, one-to-one matching, P/R/F1
+│   ├── dataset.py            reading the label and condition files
+│   └── experiment.py         batch experiment, tables, charts
+├── models/                   yolov8n-face.pt, haarcascade_frontalface_default.xml
+├── data/
+│   ├── images/               28 original photos (Roboflow export)
+│   ├── labels.csv            85 ground-truth face boxes (filename, xmin, ymin, xmax, ymax)
+│   └── conditions.csv        photo → lighting (dusuk_isik = Dim / normal / asiri_parlak = Bright),
+│                             distance (uzak = Far / yakin = Close), true face count, note
+├── results/                  summary.csv, condition_summary.csv, per_image.csv, image_quality*.csv,
+│                             parameters.json, charts/, samples/
+├── flow_chart.png
+├── start.bat                 starts the GUI on Windows
+├── Report.docx               project report (Word, in Turkish)
 └── requirements.txt
 ```
 
@@ -74,6 +82,6 @@ No step involves randomness; the results are deterministic. Timings depend on th
 ## Notes
 - On Windows, if the folder path contains Turkish characters (e.g. `diğ`), `cv2.imread` and `CascadeClassifier(path)` fail.
   For this reason the code loads files with `np.fromfile` and reads them into memory.
-- Our own histogram equalization was compared with `cv2.equalizeHist` and the difference was 0 (`sonuclar/parametreler.json`).
+- Our own histogram equalization was compared with `cv2.equalizeHist` and the difference was 0 (`results/parameters.json`).
 - AI usage: a significant part of the code was written with the help of an AI assistant (Claude) and reviewed by the group. Details are in the report.
 - Ethics: the photos were taken with the consent of the group members. No face recognition or identity labeling was performed. The photos must not be published.

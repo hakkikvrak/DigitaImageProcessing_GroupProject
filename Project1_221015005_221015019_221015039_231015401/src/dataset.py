@@ -8,7 +8,7 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # project root folder
 DATA_DIR = os.path.join(ROOT, "data")
-IMAGE_DIR = os.path.join(DATA_DIR, "goruntuler")
+IMAGE_DIR = os.path.join(DATA_DIR, "images")
 
 CONDITION_NAMES = {
     "dusuk_isik": "Dim",
@@ -25,7 +25,7 @@ DISTANCE_NAMES = {
 def read_labels():
     """dosya_adi -> [(x1, y1, x2, y2), ...]  (Roboflow CSV format)"""
     boxes = defaultdict(list)
-    with open(os.path.join(DATA_DIR, "etiketler.csv"), encoding="utf-8") as f:
+    with open(os.path.join(DATA_DIR, "labels.csv"), encoding="utf-8") as f:
         for r in csv.DictReader(f):
             boxes[r["filename"]].append(
                 (int(r["xmin"]), int(r["ymin"]), int(r["xmax"]), int(r["ymax"])))
@@ -34,7 +34,7 @@ def read_labels():
 
 def read_conditions():
     """[{'no', 'dosya', 'kosul', 'mesafe', 'gercek_yuz_sayisi', 'not'}, ...]"""
-    with open(os.path.join(DATA_DIR, "kosullar.csv"), encoding="utf-8") as f:
+    with open(os.path.join(DATA_DIR, "conditions.csv"), encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 

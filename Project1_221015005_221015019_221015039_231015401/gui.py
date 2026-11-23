@@ -1,6 +1,6 @@
 """Face Detection – Haar Cascade vs. YOLO comparison GUI (Tkinter).
 
-Usage:  python arayuz.py
+Usage:  python gui.py
 
   1) Select a photo (from the dataset or from the computer)
   2) Select the enhancement method
@@ -28,11 +28,11 @@ import numpy as np
 from PIL import Image, ImageTk
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
-import dedektorler as D   # noqa: E402
-import deney               # noqa: E402
-import iyilestirme as I   # noqa: E402
-import metrikler as M     # noqa: E402
-import veri as V          # noqa: E402
+import detectors as D     # noqa: E402
+import experiment          # noqa: E402
+import enhancement as I   # noqa: E402
+import metrics as M       # noqa: E402
+import dataset as V       # noqa: E402
 
 PANEL_W, PANEL_H = 560, 520
 FONT = ("Segoe UI", 10)
@@ -179,8 +179,8 @@ class App(tk.Tk):
             self.after(0, lambda: messagebox.showerror("YOLO could not be loaded", str(e)))
 
     def _read_summary(self):
-        """If results/ozet.csv exists: (detector, method) -> full-dataset scores."""
-        path = os.path.join(deney.RESULTS_DIR, "ozet.csv")
+        """If results/summary.csv exists: (detector, method) -> full-dataset scores."""
+        path = os.path.join(experiment.RESULTS_DIR, "summary.csv")
         self.summary = {}
         if os.path.exists(path):
             with open(path, encoding="utf-8-sig") as f:
@@ -265,7 +265,7 @@ class App(tk.Tk):
         for col, (pred, ms) in enumerate(results):
             if truth is not None:
                 matches, tp, fp, fn = M.match(pred, truth)
-                drawn = deney.draw_boxes(img, truth, pred, matches)
+                drawn = experiment.draw_boxes(img, truth, pred, matches)
                 count_error = abs(len(pred) - len(truth))
                 p, r, f1 = M.summary(tp, fp, fn)
                 mean_iou = sum(v for _, _, v in matches) / len(matches) if matches else 0.0
@@ -275,7 +275,7 @@ class App(tk.Tk):
                          f"Precision: {p:.2f}    Recall: {r:.2f}    F1: {f1:.2f}    Mean IoU: {mean_iou:.2f}\n"
                          f"Time: {ms:.0f} ms")
             else:
-                drawn = deney.draw_boxes(img, [], pred, [(i, 0, 1) for i in range(len(pred))])
+                drawn = experiment.draw_boxes(img, [], pred, [(i, 0, 1) for i in range(len(pred))])
                 msg = (f"THIS PHOTO:  Detected faces: {len(pred)}\nTime: {ms:.0f} ms\n"
                          "(No labels, so TP/FP/FN, Precision, Recall and F1 cannot be computed.)")
             image_lbl, result_lbl, overall = self.panels[col]
@@ -285,10 +285,10 @@ class App(tk.Tk):
         self.status.config(text="Done. You can select another photo or method and try again.")
 
     def _overall_text(self, detector, method):
-        """Scores of the selected method on the full dataset (28 photos) – from results/ozet.csv."""
+        """Scores of the selected method on the full dataset (28 photos) – from results/summary.csv."""
         s = self.summary.get((detector, method))
         if not s:
-            return "FULL DATASET: not computed yet → run python src/deney.py."
+            return "FULL DATASET: not computed yet → run python src/experiment.py."
         return (f"FULL DATASET (28 photos, {I.METHODS[method][0]}):\n"
                 f"Precision: {float(s['precision']):.3f}    Recall: {float(s['recall']):.3f}    "
                 f"F1: {float(s['F1']):.3f}    MAE: {float(s['MAE']):.2f}    "

@@ -1,15 +1,15 @@
 """Runs the full experiment: 2 detectors x 4 image versions x 28 images.
 
 Outputs (results/ folder):
-  goruntu_bazli.csv     TP, FP, FN, counting error, time per image / detector / method
-  ozet.csv              detector x method: TP, FP, FN, Precision, Recall, F1, MAE, time
-  kosul_ozet.csv        detector x method x condition (normal / low light / overexposed)
-  goruntu_kalitesi.csv  each method's effect on the image (mean brightness, contrast, entropy)
-  parametreler.json     fixed parameters and versions
-  grafikler/*.png       charts for the report
-  ornekler/*.jpg        sample images with the boxes drawn
+  per_image.csv               TP, FP, FN, counting error, time per image / detector / method
+  summary.csv                 detector x method: TP, FP, FN, Precision, Recall, F1, MAE, time
+  condition_summary.csv       detector x method x condition (normal / low light / overexposed)
+  image_quality.csv           each method's effect on the image (mean brightness, contrast, entropy)
+  parameters.json             fixed parameters and versions
+  charts/*.png                charts for the report
+  samples/*.jpg               sample images with the boxes drawn
 
-Run:  python src/deney.py
+Run:  python src/experiment.py
 """
 import csv
 import json
@@ -23,10 +23,10 @@ import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import dedektorler as D           # noqa: E402
-import iyilestirme as I           # noqa: E402
-import metrikler as M             # noqa: E402
-import veri as V                  # noqa: E402
+import detectors as D             # noqa: E402
+import enhancement as I           # noqa: E402
+import metrics as M                # noqa: E402
+import dataset as V                # noqa: E402
 
 ROOT = V.ROOT
 RESULTS_DIR = os.path.join(ROOT, "results")
@@ -36,6 +36,8 @@ CONDITIONS = list(V.CONDITION_NAMES)                       # normal, dusuk_isik,
 # Colors: detector identity (categorical, fixed order)
 COLORS = {"Haar Cascade": "#2a78d6", "YOLOv8n-face": "#eb6834"}
 GT_COLOR_BGR = (0, 200, 0)                             # ground-truth boxes in green
+# English tags used only in sample image file names (method keys stay as in the CSV files)
+FILE_TAGS = {"ham": "raw", "parlaklik_kontrast": "brightness_contrast", "histogram_esitleme": "hist_eq", "clahe": "clahe"}
 
 
 def draw_boxes(img, truth, pred, matches):
@@ -68,8 +70,8 @@ def verify_histogram():
 
 def run(progress=None, haar_param=None, yolo_param=None):
     """Runs the experiment. progress(text, ratio) is used for a progress bar."""
-    os.makedirs(os.path.join(RESULTS_DIR, "grafikler"), exist_ok=True)
-    os.makedirs(os.path.join(RESULTS_DIR, "ornekler"), exist_ok=True)
+    os.makedirs(os.path.join(RESULTS_DIR, "charts"), exist_ok=True)
+    os.makedirs(os.path.join(RESULTS_DIR, "samples"), exist_ok=True)
 
     labels = V.read_labels()
     records = V.read_conditions()
@@ -110,18 +112,18 @@ def run(progress=None, haar_param=None, yolo_param=None):
                     uctan_uca_ms=round(enhance_ms + infer_ms, 2)))
                 # Save some sample images (one from each condition)
                 if int(k["no"]) in (4, 5, 6, 18, 25):
-                    name = f"{int(k['no']):02d}_{y}_{d.name.split()[0].split('v')[0]}.jpg"
-                    V.write_image(os.path.join(RESULTS_DIR, "ornekler", name),
+                    name = f"{int(k['no']):02d}_{FILE_TAGS[y]}_{d.name.split()[0].split('v')[0]}.jpg"
+                    V.write_image(os.path.join(RESULTS_DIR, "samples", name),
                                   cv2.resize(draw_boxes(img, truth, pred, matches), None, fx=0.5, fy=0.5))
 
-    write_csv(os.path.join(RESULTS_DIR, "goruntu_bazli.csv"), rows)
-    write_csv(os.path.join(RESULTS_DIR, "goruntu_kalitesi.csv"), quality)
+    write_csv(os.path.join(RESULTS_DIR, "per_image.csv"), rows)
+    write_csv(os.path.join(RESULTS_DIR, "image_quality.csv"), quality)
     summary = summarize(rows, ["dedektor", "yontem"])
     condition_summary = summarize(rows, ["dedektor", "yontem", "kosul"])
-    write_csv(os.path.join(RESULTS_DIR, "ozet.csv"), summary)
-    write_csv(os.path.join(RESULTS_DIR, "kosul_ozet.csv"), condition_summary)
+    write_csv(os.path.join(RESULTS_DIR, "summary.csv"), summary)
+    write_csv(os.path.join(RESULTS_DIR, "condition_summary.csv"), condition_summary)
     quality_summary = summarize_quality(quality)
-    write_csv(os.path.join(RESULTS_DIR, "goruntu_kalitesi_ozet.csv"), quality_summary)
+    write_csv(os.path.join(RESULTS_DIR, "image_quality_summary.csv"), quality_summary)
 
     mx, mean_diff = verify_histogram()
     param = dict(
@@ -138,7 +140,7 @@ def run(progress=None, haar_param=None, yolo_param=None):
                       ultralytics=__import__("ultralytics").__version__,
                       torch=__import__("torch").__version__, platform=platform.platform()),
     )
-    with open(os.path.join(RESULTS_DIR, "parametreler.json"), "w", encoding="utf-8") as f:
+    with open(os.path.join(RESULTS_DIR, "parameters.json"), "w", encoding="utf-8") as f:
         json.dump(param, f, ensure_ascii=False, indent=2)
 
     plot_charts(summary, condition_summary, rows, quality_summary)
@@ -218,7 +220,7 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    out_dir = os.path.join(RESULTS_DIR, "grafikler")
+    out_dir = os.path.join(RESULTS_DIR, "charts")
     method_labels = [I.METHODS[y][0] for y in METHODS]
 
     def get_values(table, field, **filters):
@@ -228,9 +230,9 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
 
     # 1) F1 and MAE - full dataset
     for field, title_text, filename, fmt in [
-            ("F1", "F1 score (IoU ≥ 0.50) – full dataset", "f1_genel.png", "{:.2f}"),
-            ("MAE", "Mean absolute counting error (MAE) – lower is better", "mae_genel.png", "{:.2f}"),
-            ("ort_cikarim_ms", "Mean inference time (ms / image)", "sure.png", "{:.0f}")]:
+            ("F1", "F1 score (IoU ≥ 0.50) – full dataset", "f1_overall.png", "{:.2f}"),
+            ("MAE", "Mean absolute counting error (MAE) – lower is better", "mae_overall.png", "{:.2f}"),
+            ("ort_cikarim_ms", "Mean inference time (ms / image)", "inference_time.png", "{:.0f}")]:
         fig, ax = plt.subplots(figsize=(8, 4.2), dpi=150)
         _bars(ax, get_values(summary, field), method_labels, fmt)
         if field == "F1":
@@ -251,7 +253,7 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
     fig.suptitle("F1 score by capture condition", x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "f1_kosullara_gore.png"))
+    fig.savefig(os.path.join(out_dir, "f1_by_condition.png"))
     plt.close(fig)
 
     # 3) Recall by condition
@@ -264,7 +266,7 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
     axs[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1, 1))
     fig.suptitle("Recall by capture condition (share of faces found)", x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "recall_kosullara_gore.png"))
+    fig.savefig(os.path.join(out_dir, "recall_by_condition.png"))
     plt.close(fig)
 
     # 4) Research question: does enhancement increase F1 compared with the raw image?
@@ -280,7 +282,7 @@ def plot_charts(summary, condition_summary, rows, quality_summary):
     fig.suptitle("How much did enhancement change F1 vs. the raw image? (below 0 = worse)",
                  x=0.01, ha="left", fontsize=12)
     fig.tight_layout()
-    fig.savefig(os.path.join(out_dir, "f1_degisimi.png"))
+    fig.savefig(os.path.join(out_dir, "f1_change.png"))
     plt.close(fig)
 
 
